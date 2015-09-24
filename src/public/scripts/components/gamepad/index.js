@@ -1,9 +1,9 @@
 'use strict';
 
-import Join from './Join';
-import Lobby from './Lobby';
+import join from './Join';
+import lobby from './Lobby';
 
 export default {
-  Join,
-  Lobby
+  join,
+  lobby
 };

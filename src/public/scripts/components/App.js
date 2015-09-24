@@ -2,65 +2,29 @@
 
 import React from 'react';
 import engine from '../engine';
-// import Landing from './landing';
 
 export default class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {
-      gameState: this.engineState
-    }
+    this.state = { gameState: this.engineState }
+
     this.engineState = engine.gameState.state;
+    this.bindState = this.bindState.bind(this);
   }
 
   componentWillMount() {
-    engine.gameState.addStateListener(this.bindState.bind(this));
+    engine.gameState.addStateListener(this.bindState);
     this.setState({
       gameState: this.engineState
-    });
-    engine.dc.on('Game Code', (gameCode) => {
-      this.setState({
-        gameCode: gameCode
-      });
     });
   }
 
   componentWillUnmount() {
-    engine.gameState.removeStateListener(this.bindState.bind(this));
+    engine.gameState.removeStateListener(this.bindState);
   }
 
   render() {
-    return (
-      <div>
-        <button
-          onClick={() => { engine.displayJoin() }}>
-          Display Join
-        </button>
-        <button
-          onClick={() => { engine.gamepadJoin('arjun', this.state.gameCode) }}>
-          Gamepad Join
-        </button>
-        <input onChange={this.inputGameCode.bind(this)}/>
-        <button
-          onClick={() => { engine.beginGame() }}>
-          Begin Game
-        </button>
-        <button
-          onClick={() => { engine.displayActionComplete() }}>
-          Display Action Complete
-        </button>
-        <button
-          onClick={() => { engine.gamepadInput() }}>
-          Gamepad Input
-        </button>
-      </div>
-    );
-  }
-
-  inputGameCode(e) {
-    this.setState({
-      gameCode: e.target.value
-    })
+    return <div>{ React.cloneElement(this.props.children, { gameState: this.engineState }) }</div>;
   }
 
   bindState() {
