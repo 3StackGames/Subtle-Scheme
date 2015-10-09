@@ -1,9 +1,5 @@
 'use strict';
 
-import create from './Create';
-import lobby from './Lobby';
+import main from './Main';
 
-export default {
-  create,
-  lobby
-};
+export default main;

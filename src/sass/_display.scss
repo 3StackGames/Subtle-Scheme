@@ -22,24 +22,21 @@
         padding: 40px 0 50px;
     }
 
+    .small-header, .showGameCode {
+        font-weight: 600;
+        font-size: 2em;
+        color: #BDBDBD;
+        text-align: right;
+        margin: -60px 0 40px;
+    }
+
     .showGameCode {
         span:last-child {
             font-size: 1.3em;
         }
 
-        font-weight: 600;
         font-size: 1.6em;
         color: #F44336;
-        text-align: right;
-        margin-top: -60px;
-    }
-
-    .small-header {
-        font-weight: 600;
-        font-size: 2em;
-        color: #BDBDBD;
-        text-align: right;
-        margin-bottom: -30px;
     }
 
     .checkbox {
@@ -99,13 +96,16 @@
     }
 
     .joinNotice {
+        text-align: center;
+        color: #424242;
+        font-weight: 600;
+
         .title {
             .gamecode {
                 color: white;
                 background: #F44336;
-                vertical-align: center;
                 display: inline-block;
-                padding: 8px 10px;
+                padding: 4px 10px;
                 margin: 0 0 0 10px;
             }
 
@@ -130,11 +130,6 @@
 
             font-size: 2em;
         }
-
-        padding: 30px 0;
-        text-align: center;
-        color: #424242;
-        font-weight: 600;
     }
 
     .playerColor {

@@ -1,9 +1,5 @@
 'use strict';
 
-import join from './Join';
-import lobby from './Lobby';
+import main from './Main';
 
-export default {
-  join,
-  lobby
-};
+export default main;
