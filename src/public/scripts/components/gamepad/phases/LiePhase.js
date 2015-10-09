@@ -44,10 +44,7 @@ export default class LiePhase extends Component {
 			);
 		}
 
-		if(this.sentLie)
-		{
-			displayQuestion = <div className="notice">Lie has been submitted</div>;
-		}
+		if(this.sentLie) displayQuestion = <div className="notice">Waiting for other players...</div>;
 
 		return displayQuestion;
 	}
@@ -85,7 +82,7 @@ export default class LiePhase extends Component {
 
 		for(let i = 0; i < otherLies.length; i++)
 		{
-			let otherLie = otherLies[i].toLowerCase().replace(/\s/g, '');
+			let otherLie = otherLies[i].lie.toLowerCase().replace(/\s/g, '');
 
 			if(cleanedLie == otherLie)
 			{
@@ -102,8 +99,8 @@ export default class LiePhase extends Component {
 
 		this.sentLie = true;
 
-		let displayName = state.currentPlayer.displayName;
+		let player = state.currentPlayer.displayName;
 		let gameCode = state.gameCode;
-		this.engine.gamepadInput({ lie, displayName, gameCode });
+		this.engine.gamepadInput({ lie, player, gameCode });
 	}
 }

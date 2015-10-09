@@ -11,11 +11,13 @@ export default class LiePhase extends Component {
 	}
 
 	componentDidMount() {
+		if(this.state.questionCount > 1) return;
+
 		setTimeout(() => {
 			this.engine.displayActionComplete();
 			this.finishedInstruction = true;
 			this.forceUpdate();
-		}, 3000);
+		}, 1000);
 	}
 
 	render() {
@@ -30,7 +32,7 @@ export default class LiePhase extends Component {
 			</div>
 		);
 
-		if(this.finishedInstruction)
+		if(this.finishedInstruction || state.questionCount > 1)
 		{
 			displayQuestion = (
 				<div>
@@ -52,12 +54,6 @@ export default class LiePhase extends Component {
 }
 
 class WaitingPlayerLies extends React.Component {
-	// endLies() {
-	//     setTimeout(function() {
-	//         socket.emit('done lying');
-	//     }, 1000)
-	// }
-
 	render() {
 		let players = this.props.players;
 		let lies = this.props.lies;
@@ -70,8 +66,7 @@ class WaitingPlayerLies extends React.Component {
 
 			for(let i = 0; i < lies.length; i++)
 			{
-				let lie = lies[i];
-				if(displayName == lie.liar)
+				if(displayName === lies[i].liar)
 				{
 					active = "active";
 					finishedUsers++;
@@ -90,8 +85,6 @@ class WaitingPlayerLies extends React.Component {
 
 		if(finishedUsers == players.length) {
 			finishElement = <div className="finished">All lies have been entered!</div>;
-
-			// this.endLies();
 		}
 
 		return (
