@@ -21,7 +21,12 @@ export default class RevealPhase extends Component {
 
 		if(this.revealing > lies.length + 1) 
 		{
-			return <DisplayScore players={ state.players } />;
+			return (
+				<div>
+					<div className="showGameCode">Game Code: <span>{ gameCode }</span></div>
+					<DisplayScore players={ state.players } />
+				</div>
+			);
 		}
 		else if(this.revealing > lies.length)
 		{
@@ -86,7 +91,7 @@ export default class RevealPhase extends Component {
 				<div key={ key } className={"scrub player_" + this.playerId(player)} style={ this.angle() }>
 					{ player }
 				</div>
-	        );
+			);
 		});
 
 		return (
@@ -131,6 +136,36 @@ export default class RevealPhase extends Component {
 
 class DisplayScore extends React.Component {
 	render() {
-		return <div>display score</div>;
+		var players = this.props.players;
+
+		players.sort(function(a, b) {
+			if (a.score < b.score) {
+				return 1;
+			}
+
+			return 0;
+		});
+
+		let playerList = this.props.players.map((player, key) => {
+			return (
+				<div key={ key } className={"playerBoardItem player_" + this.playerId(player.displayName)}>
+					<div className="playerName">{ player.displayName }</div>
+					<div className="totalPoints">{ player.score }</div>
+					<div className="clear"></div>
+				</div>
+			);
+		});
+		return <div className="scoreBoard">{ playerList }</div>;
+	}
+
+	playerId(playerName) {
+		let players = this.props.players;
+
+		for(let i = 0; i < players.length; i++)
+		{
+			if(players[i].displayName === playerName) return i + 1;
+		}
+
+		return 0;
 	}
 }
