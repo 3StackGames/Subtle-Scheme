@@ -15,7 +15,7 @@ export default class VotePhase extends Component {
 					<h3 className="title">{ currentQuestion.question }</h3>
 					<WaitingPlayerChoosing
 						players={ state.players }
-						currentQuestion={ currentQuestion }
+						question={ currentQuestion }
 						lies={ state.lies }
 					/>
 				</div>
@@ -29,14 +29,14 @@ class WaitingPlayerChoosing extends React.Component {
 		// return <div />;
 
 		let players = this.props.players;
-		let currentQuestion = this.props.currentQuestion;
+		let question = this.props.question;
 		let lies = this.props.lies;
 
 		let finishedUsers = 0;
 
 		var choices = [
 			<div key="0" className="col-xs-4">
-				<div className="choiceItems">{currentQuestion.answer}</div>
+				<div className="choiceItems">{question.answer}</div>
 			</div>
 		];
 
@@ -53,7 +53,7 @@ class WaitingPlayerChoosing extends React.Component {
 			let displayName = player.displayName;
 			let active = "";
 
-			if(this.contains(currentQuestion.believers, displayName))
+			if(this.contains(question.believers, displayName))
 			{
 				active = "active";
 				finishedUsers++;
