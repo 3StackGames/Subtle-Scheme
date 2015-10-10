@@ -25,6 +25,9 @@ export default class RevealPhase extends Component {
 				<div>
 					<div className="showGameCode">Game Code: <span>{ gameCode }</span></div>
 					<DisplayScore players={ state.players } />
+					<h5 className="text-center">Keep Playing?
+						<div className="small-text">(Look at your gamepad screen!)</div>
+					</h5>
 				</div>
 			);
 		}
