@@ -2,6 +2,7 @@
 
 import React from 'react';
 import autobind from 'autobind-decorator';
+import { events } from '../../../digital-compass/constants';
 
 export default class RevealPhase extends React.Component {
 	constructor(props) {
