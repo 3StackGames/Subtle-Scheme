@@ -27,7 +27,7 @@ export default class InitialPhase extends Component {
 			<div>
 				<div className="small-header">Join Room</div>
 				<form onSubmit={ this.handlePlayerJoin }>
-					<div id="warning" className="bg-danger" />
+					<div id="warning" className="notice-red" />
 					<div className="form-group">
 						<label htmlFor="username">Username</label>
 						<input type="text" className="form-control" id="username" ref="name" placeholder="ex: John" />

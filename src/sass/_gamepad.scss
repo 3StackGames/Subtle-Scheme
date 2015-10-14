@@ -27,6 +27,52 @@
         cursor: pointer;
     }
 
+    .checkbox {
+        &:checked + label {
+            &:hover {
+                &:before {
+                    color: #4CAF50;
+                }
+
+                color: #4CAF50;
+            }
+
+            &:before {
+                color: #4CAF50;
+            }
+
+            color: #4CAF50;
+        }
+
+        & + label {
+            &:hover {
+                &:before {
+                    color: #BDBDBD;
+                }
+
+                color: #0277BD;
+            }
+
+            &:before {
+                content: "\2713";
+                color: #EEEEEE;
+                font-size: 2em;
+                display: inline-block;
+                vertical-align: -5px;
+            }
+
+            font-weight: 600;
+            font-size: 1.8em;
+            color: $lightblue;
+            text-align: left;
+            display: block;
+            cursor: pointer;
+            margin: 0 0 10px;
+        }
+
+        display: none;
+    }
+
     .btn {
         &.choiceItems {
             background: #212121;
