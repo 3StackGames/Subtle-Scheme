@@ -21,6 +21,8 @@ export default class RevealPhase extends Component {
 
 		if(this.revealing > lies.length + 1) 
 		{
+			this.engine.displayActionComplete();
+			
 			return (
 				<div>
 					<div className="showGameCode">Game Code: <span>{ gameCode }</span></div>
@@ -133,7 +135,7 @@ export default class RevealPhase extends Component {
 	revealTimer() {
 		setTimeout(() => {
 			this.forceUpdate();
-		}, 3000);
+		}, 2000);
 	}
 }
 

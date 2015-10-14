@@ -4,13 +4,11 @@ import React from 'react';
 import autobind from 'autobind-decorator';
 
 import Component from '../../Component';
-import { events } from '../../../digital-compass/constants'
 
 export default class LiePhase extends Component {
 	constructor(props) {
 		super(props);
 
-		this.engine.socket.on(events.DISPLAY_ACTION_COMPLETE, this.introCompleted);
 		this.finishedInstruction = false;
 		this.sentLie = false;
 		this.alert;
@@ -50,7 +48,9 @@ export default class LiePhase extends Component {
 	}
 
 	@autobind
-	introCompleted() {
+	displayActionComplete() {
+		if(!this.canUpdate) return;
+		
 		this.finishedInstruction = true;
 		this.forceUpdate();
 	}

@@ -1,22 +1,16 @@
 'use strict';
 
 import React from 'react';
-import autobind from 'autobind-decorator';
 
 import phases from './phases';
 import Component from '../Component';
 
 export default class Main extends Component {
-	@autobind
-	bindState() {
-		super.bindState();
-		console.log(this.state.gameState);
-	}
 
 	render() {
 		let state = this.state.gameState;
 
-		if(state.currentPhase == undefined) state.currentPhase = {};
+		if(state.currentPhase == undefined) state.currentPhase = { phaseName: "InitialPhase" };
 		let CurrentPhase = phases[state.currentPhase.phaseName] || phases.InitialPhase;
 
 		return (

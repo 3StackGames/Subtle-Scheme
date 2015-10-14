@@ -79,6 +79,10 @@
             color: white;
         }
 
+        &.btn-danger {
+            background: #d9534f;
+        }
+
         font-weight: 600;
         font-size: 1.3em;
         text-align: center;
@@ -88,6 +92,7 @@
         border-radius: 0;
         margin: 5px auto;
         color: white;
+        border: 0;
         background: $lightblue;
     }
 

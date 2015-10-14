@@ -18,7 +18,7 @@ export default class Main extends Component {
 
 		state.currentPlayer = this.currentPlayer;
 
-		if(state.currentPhase == undefined) state.currentPhase = {};
+		if(state.currentPhase == undefined) state.currentPhase = { phaseName: "InitialPhase" };
 		let CurrentPhase = phases[state.currentPhase.phaseName] || phases.InitialPhase;
 
 		return (
@@ -35,12 +35,6 @@ export default class Main extends Component {
 		        </div>
 		    </div>
 		);
-	}
-
-	@autobind
-	bindState() {
-		super.bindState();
-		console.log(this.state.gameState);
 	}
 
 	@autobind
