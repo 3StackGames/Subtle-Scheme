@@ -1,16 +1,8 @@
 'use strict';
 
 import React from 'react';
-import {
-	App,
-	Display,
-	Gamepad,
-	Landing
-} from './components';
-
-import {
-	Route, IndexRoute
-} from 'react-router';
+import { App, Display, Gamepad, Landing } from './components';
+import { Route, IndexRoute } from 'react-router';
 
 export default (
 	<Route path='/' component={ App }>

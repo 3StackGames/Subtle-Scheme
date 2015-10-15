@@ -4,7 +4,7 @@ import React from 'react';
 import engine from '../engine'
 import autobind from 'autobind-decorator'
 
-import { events } from '../digital-compass/constants'
+import { events } from 'digital-compass-client/lib/constants'
 
 export default class Component extends React.Component {
 	constructor(props) {

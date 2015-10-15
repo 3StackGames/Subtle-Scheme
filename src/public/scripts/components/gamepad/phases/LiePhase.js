@@ -2,7 +2,6 @@
 
 import React from 'react';
 import autobind from 'autobind-decorator';
-
 import Component from '../../Component';
 
 export default class LiePhase extends Component {

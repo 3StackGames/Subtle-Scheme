@@ -18,6 +18,7 @@ export default class RevealPhase extends Component {
 
 		let showAnswer;
 		let gameCode = state.gameCode;
+		let players = state.players;
 
 		if(this.revealing > lies.length + 1) 
 		{
@@ -26,10 +27,8 @@ export default class RevealPhase extends Component {
 			return (
 				<div>
 					<div className="showGameCode">Game Code: <span>{ gameCode }</span></div>
-					<DisplayScore players={ state.players } />
-					<h5 className="text-center">Keep Playing?
-						<div className="small-text">(Look at your gamepad screen!)</div>
-					</h5>
+					<DisplayScore players={ players } />
+					<div className="small-text text-center">(Look at your gamepad screen!)</div>
 				</div>
 			);
 		}

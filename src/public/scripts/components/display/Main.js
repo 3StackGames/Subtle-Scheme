@@ -1,7 +1,6 @@
 'use strict';
 
 import React from 'react';
-
 import phases from './phases';
 import Component from '../Component';
 

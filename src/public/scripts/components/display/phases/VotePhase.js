@@ -26,8 +26,6 @@ export default class VotePhase extends Component {
 
 class WaitingPlayerChoosing extends React.Component {
 	render() {
-		// return <div />;
-
 		let players = this.props.players;
 		let question = this.props.question;
 		let lies = this.props.lies;
