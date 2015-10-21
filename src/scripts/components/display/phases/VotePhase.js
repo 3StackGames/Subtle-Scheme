@@ -4,6 +4,11 @@ import React from 'react';
 import Component from '../../Component';
 
 export default class VotePhase extends Component {
+  constructor(props) {
+    super(props);
+    this.rngArray = props.shufflePlayers(props.gameState.players.length);
+  }
+
 	render() {
 		let state = this.state.gameState;
 		let currentQuestion = state.currentQuestion;
@@ -17,6 +22,7 @@ export default class VotePhase extends Component {
 						players={ state.players }
 						question={ currentQuestion }
 						lies={ state.lies }
+            shuffled={ this.rngArray }
 					/>
 				</div>
 			</div>
@@ -28,6 +34,7 @@ class WaitingPlayerChoosing extends React.Component {
 	render() {
 		let players = this.props.players;
 		let question = this.props.question;
+    let shuffled = this.props.shuffled;
 		let lies = this.props.lies;
 
 		let finishedUsers = 0;
@@ -46,6 +53,8 @@ class WaitingPlayerChoosing extends React.Component {
 				</div>
 			);
 		}
+
+    choices = this.shuffleOptions(choices, shuffled);
 
 		let listPlayers = players.map((player, key) => {
 			let displayName = player.displayName;
@@ -74,20 +83,13 @@ class WaitingPlayerChoosing extends React.Component {
 			);
 		});
 
-		// choices = shuffle(choices);
-
 		let finishElement;
 
-		if(finishedUsers == players.length)
-		{
-			finishElement = <div className="finished">Everyone has chosen!</div>;
-
-			// this.endChoosing();
-		}
+		if(finishedUsers == players.length) finishElement = <div className="finished">Everyone has chosen!</div>;
 
 		return (
 			<div className="relative">
-				<div className="choiceList row">{ choices }</div>
+        <div className="choiceList row">{ choices }</div>
 				{ finishElement }
 				<div className="WaitingPlayerChoosing playerColor">{ listPlayers }</div>
 			</div>
@@ -102,4 +104,10 @@ class WaitingPlayerChoosing extends React.Component {
 
 		return false;
 	}
+
+  shuffleOptions(choices, array) {
+    return array.map((v) => {
+      return choices[v];
+    });
+  }
 }

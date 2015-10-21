@@ -8,5 +8,5 @@ import RevealPhase from './RevealPhase';
 import EndPhase from './EndPhase';
 
 export default {
-	InitialPhase, PackSelectionPhase, LiePhase, VotePhase, RevealPhase, EndPhase
+  InitialPhase, PackSelectionPhase, LiePhase, VotePhase, RevealPhase, EndPhase
 };
