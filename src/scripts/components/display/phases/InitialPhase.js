@@ -18,6 +18,9 @@ export default class InitialPhase extends Component {
 			{
 				this.engine.displayJoin(gameCode);
 				return;
+			} else {
+				localStorage.removeItem('display.gameCode');
+				localStorage.removeItem('display.timestamp');
 			}
 		}
 
