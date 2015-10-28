@@ -8,12 +8,13 @@ import Component from '../../Component';
 export default class InitialPhase extends Component {
 	componentWillMount() {
 		super.componentWillMount();
-		this.saveCode = false;
+		let gameCode = localStorage.getItem('display.gameCode');
+		let timestamp = parseInt(localStorage.getItem('display.timestamp'), 10);
+		let difference = (+new Date - timestamp) / (1000 * 60 * 60);
 
-		let gameCode = sessionStorage.getItem('display.gameCode');
-		if(gameCode !== 'undefined' && gameCode !== "null") 
+		if(gameCode !== null && gameCode.length == 4 && difference <= 3)
 		{
-			if(confirm('Found gamecode: ' + gameCode + '. Would you like to continue?'))
+			if(confirm('Found gamecode: ' + gameCode + '. Would you like to continue?')) 
 			{
 				this.engine.displayJoin(gameCode);
 				return;
@@ -21,14 +22,6 @@ export default class InitialPhase extends Component {
 		}
 
 		this.engine.displayJoin();
-	}
-
-	componentWillUpdate(props, state) {
-		if(this.saveCode) return;
-		this.saveCode = true;
-
-		let gameCode = state.gameState.gameCode;
-		if(gameCode)  sessionStorage.setItem('display.gameCode', gameCode);
 	}
 
 	render() {
