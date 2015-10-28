@@ -8,7 +8,6 @@ export default class LiePhase extends Component {
   constructor(props) {
     super(props);
 
-    this.finishedInstruction = false;
     this.sentLie = false;
     this.alert;
   }
@@ -23,7 +22,7 @@ export default class LiePhase extends Component {
       </div>
     );
 
-    if(this.finishedInstruction)
+    if(state.displayComplete)
     {
       displayQuestion = (
         <div className="questionTime">
@@ -44,14 +43,6 @@ export default class LiePhase extends Component {
     if(this.sentLie) displayQuestion = <div className="notice">Waiting for other players...</div>;
 
     return displayQuestion;
-  }
-
-  @autobind
-  displayActionComplete() {
-    if(!this.canUpdate) return;
-    
-    this.finishedInstruction = true;
-    this.forceUpdate();
   }
 
   @autobind

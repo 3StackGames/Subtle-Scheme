@@ -5,27 +5,13 @@ import autobind from 'autobind-decorator';
 import Component from '../../Component';
 
 export default class RevealPhase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.displayButtons = false;
-  }
-
   render() {
-    if(this.displayButtons)
+    if(this.state.gameState.displayAction)
     {
       return <button onClick={ this.keepPlaying } className="btn">Move On</button>;
     }
 
     return <div className="small-header">Look at the display!</div>;
-  }
-
-  @autobind
-  displayActionComplete() {
-    if(!this.canUpdate) return;
-
-    this.displayButtons = true;
-    this.forceUpdate();
   }
 
   @autobind

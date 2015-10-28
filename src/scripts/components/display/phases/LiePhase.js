@@ -4,18 +4,12 @@ import React from 'react';
 import Component from '../../Component';
 
 export default class LiePhase extends Component {
-	constructor(props) {
-		super(props);
-
-		this.finishedInstruction = false;
-	}
-
 	componentDidMount() {
 		if(this.state.questionCount > 1) return;
 
 		setTimeout(() => {
-			this.engine.displayActionComplete();
-			this.finishedInstruction = true;
+			let gameCode = this.state.gameState.gameCode;
+			this.engine.displayActionComplete({ gameCode });
 			this.forceUpdate();
 		}, 1000);
 	}
@@ -32,7 +26,7 @@ export default class LiePhase extends Component {
 			</div>
 		);
 
-		if(this.finishedInstruction || state.questionCount > 1)
+		if(state.displayComplete || state.questionCount > 1)
 		{
 			displayQuestion = (
 				<div>

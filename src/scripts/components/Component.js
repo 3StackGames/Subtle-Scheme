@@ -14,7 +14,7 @@ export default class Component extends React.Component {
 		this.canUpdate = false;
 		this.engine = engine;
 
-		engine.socket.on(events.DISPLAY_ACTION_COMPLETE, this.displayActionComplete);
+		engine.socket.on(events.STATE_UPDATE, this.gamestateUpdate);
 	}
 
 	componentWillMount() {
@@ -24,7 +24,7 @@ export default class Component extends React.Component {
 
 		let phase = this.state.gameState.currentPhase;
 		if(!phase) return;
-		console.groupCollapsed("%c " + phase.phaseName + " ", 'background-color: #4CAF50; color: white;');
+		console.group("%c " + phase.phaseName + " ", 'background-color: #4CAF50; color: white;');
 	}
 
 	componentWillUnmount() {
@@ -48,7 +48,7 @@ export default class Component extends React.Component {
 		if(this.canUpdate) this.setState({ gameState: engine.getState() });
 	}
 
-	displayActionComplete() {}
+	gamestateUpdate() {}
 
 	static PropTypes = {};
 	static defaultProps = {};

@@ -9,6 +9,7 @@ export default class InitialPhase extends Component {
     super(props);
 
     this.playerJoined = false;
+    this.tempName = null;
   }
 
   render() {
@@ -60,8 +61,24 @@ export default class InitialPhase extends Component {
       return;
     }
 
+    this.tempName = name;
+
     this.engine.gamepadJoin({name, gameCode});
-    this.props.updatePlayer({ displayName: name });
-    this.playerJoined = true;
+  }
+
+  @autobind
+  gamestateUpdate(state) {
+    if(!this.canUpdate || this.tempName === null || this.state.gameState === undefined) return;
+
+    let players = this.state.gameState.players;
+
+    for(let i = 0; i < players.length; i++)
+    {
+      if(players[i].displayName !== this.tempName) continue;
+
+      this.playerJoined = true;
+      this.props.updatePlayer({ displayName: this.tempName });
+      break;
+    }
   }
 }

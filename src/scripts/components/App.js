@@ -8,7 +8,6 @@ export default class App extends React.Component {
 	}
 
   shufflePlayers(count) {
-    console.log('AAAAAA');
     let array = new Array(count).join(',').split(',').map((i,k) => k)
 
     let i = array.length, tmp, random;
