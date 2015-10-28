@@ -22,7 +22,7 @@ export default class RevealPhase extends Component {
 
 		if(this.revealing > lies.length + 1 || state.displayAction) 
 		{
-			if(!state.displayAction) this.engine.displayActionComplete({ gameCode });
+			if(!state.displayAction) this.engine.displayComplete({ gameCode });
 			
 			return (
 				<div>

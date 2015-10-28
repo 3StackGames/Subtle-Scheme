@@ -8,7 +8,27 @@ import Component from '../../Component';
 export default class InitialPhase extends Component {
 	componentWillMount() {
 		super.componentWillMount();
+		this.saveCode = false;
+
+		let gameCode = sessionStorage.getItem('display.gameCode');
+		if(gameCode !== 'undefined' && gameCode !== "null") 
+		{
+			if(confirm('Found gamecode: ' + gameCode + '. Would you like to continue?'))
+			{
+				this.engine.displayJoin(gameCode);
+				return;
+			}
+		}
+
 		this.engine.displayJoin();
+	}
+
+	componentWillUpdate(props, state) {
+		if(this.saveCode) return;
+		this.saveCode = true;
+
+		let gameCode = state.gameState.gameCode;
+		if(gameCode)  sessionStorage.setItem('display.gameCode', gameCode);
 	}
 
 	render() {
