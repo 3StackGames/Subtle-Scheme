@@ -13,8 +13,6 @@ export default class Component extends React.Component {
 		this.state = { gameState: engine.getState() };
 		this.canUpdate = false;
 		this.engine = engine;
-
-		engine.socket.on(events.STATE_UPDATE, this.gamestateUpdate);
 	}
 
 	componentWillMount() {
@@ -47,8 +45,6 @@ export default class Component extends React.Component {
 	bindState() {
 		if(this.canUpdate) this.setState({ gameState: engine.getState() });
 	}
-
-	gamestateUpdate() {}
 
 	static PropTypes = {};
 	static defaultProps = {};
