@@ -20,10 +20,10 @@ export default class RevealPhase extends Component {
 		let gameCode = state.gameCode;
 		let players = state.players;
 
-		if(this.revealing > lies.length + 1 || state.displayAction) 
+		if(this.revealing > lies.length + 1 || state.displayAction)
 		{
 			if(this.revealing == lies.length + 2) this.engine.displayActionComplete({ gameCode });
-			
+
 			return (
 				<div>
 					<div className="showGameCode">Game Code: <span>{ gameCode }</span></div>
