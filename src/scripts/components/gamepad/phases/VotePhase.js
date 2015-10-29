@@ -38,6 +38,12 @@ export default class VotePhase extends Component {
 
   @autobind
   selectAnswer(answer) {
+    let buttons = document.getElementsByClassName('btn');
+    
+    for(let i = 0; i < buttons.length; i++) {
+      buttons[i].disabled = true;
+    }
+
     let state = this.state.gameState;
     let player = state.currentPlayer.displayName;
     let gameCode = state.gameCode;

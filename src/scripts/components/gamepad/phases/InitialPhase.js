@@ -20,7 +20,7 @@ export default class InitialPhase extends Component {
       let everyoneIsIn;
       if(state.players[0].displayName === state.currentPlayer.displayName)
       {
-        everyoneIsIn = <button onClick={ this.engine.beginGame } className="btn">EVERYONE IS IN</button>;
+        everyoneIsIn = <button onClick={ this.everyoneIsIn } className="btn">EVERYONE IS IN</button>;
       }
 
       return (
@@ -55,6 +55,7 @@ export default class InitialPhase extends Component {
   @autobind
   handlePlayerJoin(e) {
     e.preventDefault();
+    document.getElementsByClassName('btn')[0].disabled = true;
 
     let name = this.refs.name.getDOMNode().value.trim();
     let gameCode = this.refs.code.getDOMNode().value.trim().toUpperCase();
@@ -65,6 +66,7 @@ export default class InitialPhase extends Component {
 
     if(!name || !gameCode)
     {
+      document.getElementsByClassName('btn')[0].disabled = false;
       warning.innerHTML  = 'All fields need to be filled out!';
       return;
     }
@@ -88,5 +90,11 @@ export default class InitialPhase extends Component {
       this.props.updatePlayer({ displayName: this.tempName });
       break;
     }
+  }
+
+  @autobind
+  everyoneIsIn() {
+    document.getElementsByClassName('btn')[0].disabled = true;
+    this.engine.beginGame();
   }
 }

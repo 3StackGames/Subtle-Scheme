@@ -18,6 +18,7 @@ export default class RevealPhase extends Component {
 
   @autobind
   keepPlaying() {
+    document.getElementsByClassName('btn')[0].disabled = true;
     let state = this.state.gameState;
     let gameCode = state.gameCode;
     let player = state.currentPlayer.displayName;

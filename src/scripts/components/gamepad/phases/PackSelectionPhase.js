@@ -35,6 +35,7 @@ export default class PackSelectionPhase extends Component {
   @autobind
   sbumitPacks(e) {
     e.preventDefault();
+    document.getElementsByClassName('btn')[0].disabled = true;
 
     let state = this.state.gameState;
     let questionPacks =  document.getElementsByName("questionPack[]");
@@ -52,6 +53,7 @@ export default class PackSelectionPhase extends Component {
 
     if(packs.length == 0)
     {
+      document.getElementsByClassName('btn')[0].disabled = false;
       let warning = document.getElementById('warning');
       warning.innerHTML  = 'Please select a question pack!';
       return;

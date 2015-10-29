@@ -48,6 +48,7 @@ export default class LiePhase extends Component {
   @autobind
   submitLie(e) {
     e.preventDefault();
+    document.getElementsByClassName('btn')[0].disabled = true;
     this.alert = undefined;
 
     let state = this.state.gameState;
@@ -83,6 +84,7 @@ export default class LiePhase extends Component {
 
     if(this.alert)
     {
+      document.getElementsByClassName('btn')[0].disabled = false;
       this.forceUpdate();
       return;
     }
