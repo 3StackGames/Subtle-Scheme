@@ -6,7 +6,9 @@ import Component from '../../Component';
 
 export default class RevealPhase extends Component {
   render() {
-    if(this.state.gameState.displayComplete)
+    let state = this.state.gameState;
+
+    if(state.players[0].displayName === state.currentPlayer.displayName && state.displayComplete)
     {
       return <button onClick={ this.keepPlaying } className="btn">Move On</button>;
     }
