@@ -13,12 +13,20 @@ export default class InitialPhase extends Component {
   }
 
   render() {
+    let state = this.state.gameState;
+
     if(this.playerJoined)
     {
+      let everyoneIsIn;
+      if(state.players[0].displayName === state.currentPlayer.displayName)
+      {
+        everyoneIsIn = <button onClick={ this.engine.beginGame } className="btn">EVERYONE IS IN</button>;
+      }
+
       return (
         <div>
           <div className="small-header">You are in!</div>
-          <button onClick={ this.engine.beginGame } className="btn">EVERYONE IS IN</button>
+          { everyoneIsIn }
         </div>
       );
     }
