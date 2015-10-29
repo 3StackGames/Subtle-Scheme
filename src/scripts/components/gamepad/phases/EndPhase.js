@@ -6,12 +6,24 @@ import Component from '../../Component';
 
 export default class EndPhase extends Component {
   render() {
+    let state = this.state.gameState;
+
+    if(state.players[0].displayName === state.currentPlayer.displayName)
+    {
+      return (
+        <div>
+          <div className="small-header">GameOver</div>
+          <button onClick={ this.keepPlaying } className="btn">Move On</button>
+          <button onClick={ this.restartGame } className="btn btn-danger">Restart Game</button>
+        </div>
+      );
+    }
+
     return (
-          <div>
-            <button onClick={ this.keepPlaying } className="btn">Move On</button>
-            <button onClick={ this.restartGame } className="btn btn-danger">Restart Game</button>
-          </div>
-        );
+      <div>
+        <div className="small-header">GameOver</div>
+      </div>
+    );
   }
 
   @autobind
