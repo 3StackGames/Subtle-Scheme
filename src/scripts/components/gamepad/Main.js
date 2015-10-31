@@ -17,6 +17,8 @@ export default class Main extends Component {
 
     state.currentPlayer = this.currentPlayer;
 
+    console.log('current player', this.currentPlayer);
+
     if(state.currentPhase == undefined) state.currentPhase = { phaseName: "InitialPhase" };
     let CurrentPhase = phases[state.currentPhase.phaseName] || phases.InitialPhase;
 
@@ -43,7 +45,7 @@ export default class Main extends Component {
     let playerJoined = currentPlayer.playerJoined;
     let displayName = currentPlayer.displayName;
 
-    if(currentPlayer.playerJoined !== false || players == undefined) return;
+    if(currentPlayer.playerJoined !== false || players == undefined) return true;
 
     for(let i = 0; i < players.length; i++)
     {
@@ -53,6 +55,8 @@ export default class Main extends Component {
       this.forceUpdate();
       break;
     }
+
+    return true;
   }
 
   @autobind
