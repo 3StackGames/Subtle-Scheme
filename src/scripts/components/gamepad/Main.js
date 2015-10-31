@@ -36,6 +36,25 @@ export default class Main extends Component {
     );
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    let currentPlayer = this.currentPlayer;
+    let players = nextState.gameState.players;
+
+    let playerJoined = currentPlayer.playerJoined;
+    let displayName = currentPlayer.displayName;
+
+    if(currentPlayer.playerJoined !== false || players == undefined) return;
+
+    for(let i = 0; i < players.length; i++)
+    {
+      if(players[i].displayName !== displayName) continue;
+
+      this.currentPlayer = { displayName, playerJoined: true };
+      this.forceUpdate();
+      break;
+    }
+  }
+
   @autobind
   setPlayer(player) {
     this.currentPlayer = player;

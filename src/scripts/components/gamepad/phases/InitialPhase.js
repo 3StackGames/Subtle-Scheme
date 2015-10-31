@@ -5,17 +5,10 @@ import autobind from 'autobind-decorator';
 import Component from '../../Component';
 
 export default class InitialPhase extends Component {
-  constructor(props) {
-    super(props);
-
-    this.playerJoined = false;
-    this.tempName = null;
-  }
-
   render() {
     let state = this.state.gameState;
 
-    if(this.playerJoined)
+    if(state.currentPlayer.playerJoined)
     {
       let everyoneIsIn;
       if(state.players[0].displayName === state.currentPlayer.displayName)
@@ -71,20 +64,7 @@ export default class InitialPhase extends Component {
       return;
     }
 
-    let players = this.state.gameState.players;
-
-    if(players !== undefined)
-    {
-      for(let i = 0; i < players.length; i++)
-      {
-        if(players[i].displayName !== name) continue;
-
-        this.playerJoined = true;
-        this.props.updatePlayer({ displayName: name });
-        break;
-      }
-    }
-
+    this.props.updatePlayer({ displayName: name, playerJoined: false });
 
     this.engine.gamepadJoin({name, gameCode});
   }
