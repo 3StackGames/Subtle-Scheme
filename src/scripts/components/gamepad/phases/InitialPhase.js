@@ -73,14 +73,18 @@ export default class InitialPhase extends Component {
 
     let players = this.state.gameState.players;
 
-    for(let i = 0; i < players.length; i++)
+    if(players !== undefined)
     {
-      if(players[i].displayName !== name) continue;
+      for(let i = 0; i < players.length; i++)
+      {
+        if(players[i].displayName !== name) continue;
 
-      this.playerJoined = true;
-      this.props.updatePlayer({ displayName: name });
-      break;
+        this.playerJoined = true;
+        this.props.updatePlayer({ displayName: name });
+        break;
+      }
     }
+
 
     this.engine.gamepadJoin({name, gameCode});
   }
