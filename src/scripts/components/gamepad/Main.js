@@ -17,8 +17,6 @@ export default class Main extends Component {
 
     state.currentPlayer = this.currentPlayer;
 
-    console.log('current player', this.currentPlayer);
-
     if(state.currentPhase == undefined) state.currentPhase = { phaseName: "InitialPhase" };
     let CurrentPhase = phases[state.currentPhase.phaseName] || phases.InitialPhase;
 
