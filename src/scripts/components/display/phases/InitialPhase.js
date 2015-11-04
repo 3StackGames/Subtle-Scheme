@@ -14,7 +14,7 @@ export default class InitialPhase extends Component {
 
 		if(gameCode !== null && gameCode.length == 4 && difference <= 3)
 		{
-			if(confirm('Found gamecode: ' + gameCode + '. Would you like to continue?')) 
+			if(confirm('Found Game Code: ' + gameCode + '\nWould you like to continue?')) 
 			{
 				this.engine.displayJoin(gameCode);
 				return;

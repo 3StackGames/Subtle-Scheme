@@ -6,6 +6,19 @@ import Component from '../../Component';
 
 export default class InitialPhase extends Component {
   render() {
+    let user = JSON.parse(localStorage.getItem('gamepad.user'));
+    let timestamp = parseInt(localStorage.getItem('gamepad.timestamp'), 10);
+    let difference = (+new Date - timestamp) / (1000 * 60 * 60);
+    let foundRoom;
+
+    if(typeof user === "object" && difference <= 3)
+    {
+      foundRoom = <div className="form-group">
+        <label>Found Room:</label>
+        <button onClick={ this.handleJoinRoom } type="button" className="btn">Join Back { user.gameCode } as { user.displayName }</button>
+      </div>;
+    }
+
     let state = this.state.gameState;
 
     if(state.currentPlayer.playerJoined)
@@ -28,6 +41,7 @@ export default class InitialPhase extends Component {
       <div>
         <div className="small-header">Join Room</div>
         <form onSubmit={ this.handlePlayerJoin }>
+          { foundRoom }
           <div id="warning" className="notice-red" />
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -64,14 +78,27 @@ export default class InitialPhase extends Component {
       return;
     }
 
+    localStorage.removeItem('gamepad.user');
+    localStorage.removeItem('gamepad.timestamp');
+
     this.props.updatePlayer({ displayName: name, playerJoined: false });
 
-    this.engine.gamepadJoin({name, gameCode});
+    this.engine.gamepadJoin({ name, gameCode });
   }
 
   @autobind
   everyoneIsIn() {
     document.getElementsByClassName('btn')[0].disabled = true;
     this.engine.beginGame();
+  }
+
+  @autobind
+  handleJoinRoom() {
+    let user = JSON.parse(localStorage.getItem('gamepad.user'));
+    let name = user.displayName;
+    let gameCode = user.gameCode;
+
+    this.props.updatePlayer({ displayName: name, playerJoined: false });
+    this.engine.gamepadJoin({ name, gameCode });
   }
 }

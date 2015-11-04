@@ -13,7 +13,6 @@ export default class EndPhase extends Component {
       return (
         <div>
           <div className="small-header">GameOver</div>
-          <button onClick={ this.keepPlaying } className="btn">Move On</button>
           <button onClick={ this.restartGame } className="btn btn-danger">Restart Game</button>
         </div>
       );

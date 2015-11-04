@@ -14,7 +14,9 @@ export default class LiePhase extends Component {
 		}, 1000);
 
 		let gameCode = this.state.gameState.gameCode;
-		if(gameCode) {
+		
+		if(gameCode)
+		{
 			localStorage.setItem('display.gameCode', gameCode);
 			localStorage.setItem('display.timestamp', +new Date);
 		}

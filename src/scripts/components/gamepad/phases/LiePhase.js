@@ -12,6 +12,19 @@ export default class LiePhase extends Component {
     this.alert;
   }
 
+  componentDidMount() {
+    if(this.state.questionCount > 1) return;
+
+    let gameCode = this.state.gameState.gameCode;
+    let displayName = this.state.gameState.currentPlayer.displayName;
+
+    if(gameCode && displayName)
+    {
+      localStorage.setItem('gamepad.user', JSON.stringify({ displayName, gameCode }));
+      localStorage.setItem('gamepad.timestamp', +new Date);
+    }
+  }
+
   render() {
     let state = this.state.gameState;
     let currentQuestion = state.currentQuestion;
@@ -57,6 +70,7 @@ export default class LiePhase extends Component {
     if(lie.length == 0)
     {
       this.alert = "Please enter in a LIE!";
+      document.getElementsByClassName('btn')[0].disabled = false;
       this.forceUpdate();
       return;
     }
