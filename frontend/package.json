@@ -4,9 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "build": "gulp -s",
-    "server": "nodemon dist/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "build": "gulp -s"
   },
   "author": "Arjun Sarode <sarodearjun57@gmail.com> (http://arjun.ink/)",
   "license": "ISC",
