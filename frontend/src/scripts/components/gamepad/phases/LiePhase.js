@@ -63,7 +63,7 @@ export default class LiePhase extends Component {
 
     for(let i = 0; i <= state.lies.length; i++)
     {
-      if(lies.liar == state.currentPlayer.displayName)
+      if(lies[i].liar == state.currentPlayer.displayName)
       {
         return true;
       }
