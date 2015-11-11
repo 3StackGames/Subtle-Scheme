@@ -34,7 +34,7 @@ class WaitingPlayerChoosing extends React.Component {
 	render() {
 		let players = this.props.players;
 		let question = this.props.question;
-    let shuffled = this.props.shuffled;
+    	let shuffled = this.props.shuffled;
 		let lies = this.props.lies;
 
 		let finishedUsers = 0;
@@ -58,7 +58,7 @@ class WaitingPlayerChoosing extends React.Component {
 
     	for(let i = choices.length - 1; i > 0; i--)
     	{
-    		if(i % 3 == 0) arr.splice(i, 0, <div className="clearfix" />);
+    		if(i % 3 == 0) choices.splice(i, 0, <div className="clearfix" />);
     	}
 
 		let listPlayers = players.map((player, key) => {
