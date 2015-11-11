@@ -45,15 +45,15 @@ class WaitingPlayerChoosing extends React.Component {
 			</div>
 		];
 
-		for(let i = 0; i < lies.length; i++)
+		for(let i = 1; i < lies.length; i++)
 		{
+			if(i % 3 == 0) choices.push(<div class="clearfix" />);
+			
 			choices.push(
-				<div key={ i + 1 } className="col-xs-4">
-					<div className="choiceItems">{ lies[i].lie.toUpperCase() }</div>
+				<div key={ i } className="col-xs-4">
+					<div className="choiceItems">{ lies[i - 1].lie.toUpperCase() }</div>
 				</div>
 			);
-
-			if((i + 1) % 3 == 0) choices.push(<div class="clearfix" />);
 		}
 
     choices = this.shuffleOptions(choices, shuffled);
