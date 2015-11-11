@@ -41,7 +41,7 @@ class WaitingPlayerChoosing extends React.Component {
 
 		var choices = [
 			<div key="0" className="col-xs-4">
-				<div className="choiceItems">{question.answer}</div>
+				<div className="choiceItems">{ question.answer.toUpperCase() }</div>
 			</div>
 		];
 
@@ -49,9 +49,11 @@ class WaitingPlayerChoosing extends React.Component {
 		{
 			choices.push(
 				<div key={ i + 1 } className="col-xs-4">
-					<div className="choiceItems">{ lies[i].lie }</div>
+					<div className="choiceItems">{ lies[i].lie.toUpperCase() }</div>
 				</div>
 			);
+
+			if((i + 1) % 3 == 0) choices.push(<div class="clearfix" />);
 		}
 
     choices = this.shuffleOptions(choices, shuffled);

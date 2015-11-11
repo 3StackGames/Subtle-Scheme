@@ -63,7 +63,7 @@ export default class VotePhase extends Component {
 class Button extends React.Component {
   render() {
     let answer = this.props.answer;
-    return <button onClick={ this.buttonHandle } className="btn choiceItems">{ answer }</button>;
+    return <button onClick={ this.buttonHandle } className="btn choiceItems">{ answer.toUpperCase() }</button>;
   }
 
   @autobind
