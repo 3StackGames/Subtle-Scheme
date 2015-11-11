@@ -225,7 +225,12 @@
 
     .choiceList {
         .choiceItems {
-            display: block;
+            display: flex;
+            display: -webkit-flex;
+            align-items: center;
+            justify-content: center;
+            -webkit-align-items: center;
+            -webkit-justify-content: center;
             text-align: center;
             font-size: 23px;
             margin: 0 0 15px;
@@ -238,6 +243,13 @@
             padding: 6px;
             word-wrap: break-word;
             position: relative;
+
+            & > div {
+                max-width: 100%;
+                overflow: hidden;
+                margin: 6px 0;
+                max-height: 49px;
+            }
 
             &:after {
                 content: "";

@@ -9,106 +9,108 @@ export default class VotePhase extends Component {
     this.rngArray = props.shufflePlayers(props.gameState.players.length);
   }
 
-	render() {
-		let state = this.state.gameState;
-		let currentQuestion = state.currentQuestion;
+    render() {
+      let state = this.state.gameState;
+      let currentQuestion = state.currentQuestion;
 
-		return (
-			<div>
-				<div className="showGameCode">Game Code: <span>{ state.gameCode }</span></div>
-				<div className="choosingTime">
-					<h3 className="title">{ currentQuestion.question }</h3>
-					<WaitingPlayerChoosing
-						players={ state.players }
-						question={ currentQuestion }
-						lies={ state.lies }
-            shuffled={ this.rngArray }
-					/>
-				</div>
-			</div>
-		);
-	}
+      return (
+        <div>
+          <div className="showGameCode">Game Code: <span>{ state.gameCode }</span></div>
+          <div className="choosingTime">
+            <h3 className="title">{ currentQuestion.question }</h3>
+            <WaitingPlayerChoosing
+              players={ state.players }
+              question={ currentQuestion }
+              lies={ state.lies }
+              shuffled={ this.rngArray }/>
+            </div>
+        </div>
+      );
+    }
 }
 
 class WaitingPlayerChoosing extends React.Component {
-	render() {
-		let players = this.props.players;
-		let question = this.props.question;
-    	let shuffled = this.props.shuffled;
-		let lies = this.props.lies;
+  render() {
+    let players = this.props.players;
+    let question = this.props.question;
+    let shuffled = this.props.shuffled;
+    let lies = this.props.lies;
 
-		let finishedUsers = 0;
+    let finishedUsers = 0;
 
-		var choices = [
-			<div key="0" className="col-xs-4">
-				<div className="choiceItems">{ question.answer.toUpperCase() }</div>
-			</div>
-		];
+    var choices = [
+      <div key="0" className="col-xs-4">
+        <div className="choiceItems"><div>{ question.answer.toUpperCase() }</div></div>
+      </div>
+    ];
 
-		for(let i; i < lies.length; i++)
-		{
-			choices.push(
-				<div key={ i + 1 } className="col-xs-4">
-					<div className="choiceItems">{ lies[i].lie.toUpperCase() }</div>
-				</div>
-			);
-		}
+    for(let i = 0; i < lies.length; i++)
+    {
+      choices.push(
+        <div key={ i + 1 } className="col-xs-4">
+          <div className="choiceItems"><div>{ lies[i].lie.toUpperCase() }</div></div>
+        </div>
+      );
+    }
 
-    	choices = this.shuffleOptions(choices, shuffled);
+    choices = this.shuffleOptions(choices, shuffled);
+    console.log(choices);
 
-    	for(let i = choices.length - 1; i > 0; i--)
-    	{
-    		if(i % 3 == 0) choices.splice(i, 0, <div className="clearfix" />);
-    	}
+    for(let i = choices.length - 1; i > 0; i--)
+    {
+      if(i % 3 == 0) choices.splice(i, 0, <div key={ choices.length + i } className="clearfix" />);
+    }
 
-		let listPlayers = players.map((player, key) => {
-			let displayName = player.displayName;
-			let active = "";
+    console.log(choices);
 
-			if(this.contains(question.believers, displayName))
-			{
-				active = "active";
-				finishedUsers++;
-			} else {
-				for(let i = 0; i < lies.length; i++)
-				{
-					if(this.contains(lies[i].believers, displayName))
-					{
-						active = "active";
-						finishedUsers++;
-						break;
-					}
-				}
-			}
+    let listPlayers = players.map((player, key) => {
+      let displayName = player.displayName;
+      let active = "";
 
-			return (
-				<div key={ key } className={ active }>
-					<div className="playerLobbyItem"></div>
-				</div>
-			);
-		});
+      if(this.contains(question.believers, displayName))
+      {
+        active = "active";
+        finishedUsers++;
+      } else {
+        for(let i = 0; i < lies.length; i++)
+        {
+          if(this.contains(lies[i].believers, displayName))
+          {
+            active = "active";
+            finishedUsers++;
+            break;
+          }
+        }
+      }
 
-		let finishElement;
+      return (
+        <div key={ key } className={ active }>
+          <div className="playerLobbyItem"></div>
+        </div>
+      );
+    });
 
-		if(finishedUsers == players.length) finishElement = <div className="finished">Everyone has chosen!</div>;
+    let finishElement;
 
-		return (
-			<div className="relative">
+    if(finishedUsers == players.length) finishElement = <div className="finished">Everyone has chosen!</div>;
+
+    return (
+      <div className="relative">
         <div className="choiceList row">{ choices }</div>
-				{ finishElement }
-				<div className="WaitingPlayerChoosing playerColor">{ listPlayers }</div>
-			</div>
-		);
-	}
+        { finishElement }
+        <div className="WaitingPlayerChoosing playerColor">{ listPlayers }</div>
+      </div>
+    );
+  }
 
-	contains(array, value) {
-		for(let i = 0; i < array.length; i++)
-		{
-			if(array[i] === value) return true;
-		}
+  contains(array, value) {
+    for(let i = 0; i < array.length; i++)
+    {
+      if(array[i] === value) return true;
+    }
 
-		return false;
-	}
+    return false;
+  }
 
   shuffleOptions(choices, array) {
     return array.map((v) => {
