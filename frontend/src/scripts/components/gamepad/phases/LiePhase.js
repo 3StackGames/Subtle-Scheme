@@ -53,9 +53,21 @@ export default class LiePhase extends Component {
       );
     }
 
-    if(this.sentLie) displayQuestion = <div className="notice">Waiting for other players...</div>;
+    if(this.sentLie || this.checkLie()) displayQuestion = <div className="notice">Waiting for other players...</div>;
 
     return displayQuestion;
+  }
+
+  checkLie() {
+    let state = this.state.gameState;
+    let lies = state.lies;
+
+    for(let i = 0; i < lies.length; i++)
+    {
+      if(lies[i].liar == state.currentPlayer.displayName) return true;
+    }
+
+    return false;
   }
 
   @autobind
