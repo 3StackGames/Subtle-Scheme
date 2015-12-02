@@ -4,16 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import com.three_stack.digital_compass.backend.BasicPlayer;
+import com.three_stack.digital_compass.backend.*;
 import org.bson.Document;
 
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
 import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
-import com.three_stack.digital_compass.backend.BasicAction;
-import com.three_stack.digital_compass.backend.BasicGameState;
-import com.three_stack.digital_compass.backend.BasicPhase;
 import org.bson.types.ObjectId;
 
 public class LiePhase extends BasicPhase {
@@ -41,11 +38,20 @@ public class LiePhase extends BasicPhase {
     }
 
 	@Override
-	public BasicGameState processAction(BasicAction action, BasicGameState state) {
+	public BasicGameState processAction(BasicAction action, BasicGameState state) throws InvalidInputException {
 		GameState gameState = (GameState) state;
 		LieAction lieAction = (LieAction) action;
-		
-		Lie lie = new Lie(lieAction.getLie(), lieAction.getPlayer());
+
+        String lieText = lieAction.getLie().trim().toLowerCase();
+
+        for (Lie lie : gameState.getLies()) {
+            if(lie.getLie().equals(lieText)) {
+                //found lie already in the game
+                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie already submitted");
+            }
+        }
+
+		Lie lie = new Lie(lieText, lieAction.getPlayer());
 		gameState.getLies().add(lie);
 		if (gameState.getLies().size() == gameState.getPlayers().size()) {
 			gameState.transitionPhase(new VotePhase());
