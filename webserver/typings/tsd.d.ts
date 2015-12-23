@@ -4,3 +4,4 @@
 /// <reference path="morgan/morgan.d.ts" />
 /// <reference path="mongoose/mongoose.d.ts" />
 /// <reference path="jsonwebtoken/jsonwebtoken.d.ts" />
+/// <reference path="node/node.d.ts" />
