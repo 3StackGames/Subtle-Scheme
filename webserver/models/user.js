@@ -9,6 +9,8 @@ var UserSchema = new Schema({
     active: Boolean,
     packs: [Schema.Types.ObjectId],
     questionsUsed: [Schema.Types.ObjectId]
+}, {
+    collection: 'Users'
 })
 
 UserSchema.pre('save', function(next) {
