@@ -41,3 +41,15 @@ mod.create = function (req, res) {
         })
     })
 }
+
+mod.show = function (req, res) {
+    User.find().exec(function(err, users) {
+        if(err) throw err
+        var filteredUsers = users.map(function (user) {
+            return {
+                username: user.username
+            }
+        })
+        res.json(filteredUsers)
+    })
+}
