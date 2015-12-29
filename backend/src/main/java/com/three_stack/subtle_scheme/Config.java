@@ -12,6 +12,8 @@ public class Config {
 
     public static final String MONGO_PACK_COLLECTION = "Packs";
     public static final String MONGO_QUESTION_COLLECTION = "Questions";
+    public static final String MONGO_USER_COLLECTION = "Users";
+
     public static final String MONGO_DATABASE = "SubtleScheme";
 
     public static final String PROMPT_ATTRIBUTE = "prompt";
