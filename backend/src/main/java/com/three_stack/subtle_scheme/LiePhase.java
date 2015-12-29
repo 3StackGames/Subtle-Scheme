@@ -82,7 +82,7 @@ public class LiePhase extends BasicPhase {
         List<Document> orList = new ArrayList<>();
         Document clause;
         for(Document pack : packs) {
-            clause = new Document(Config.PACK_ATTRIBUTE, pack.getObjectId(Config.MONGO_ID_ATTRIBUTE));
+            clause = new Document(Config.PACK_ATTRIBUTE, pack.getInteger("id"));
             orList.add(clause);
         }
         query = new Document("$or", orList);
