@@ -8,7 +8,7 @@ export default class PackSelectionPhase extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPacks: R.range(0, props.gameState.packOptions.length).fill(false),
+      selectedPacks: R.range(0, props.gameState.possiblePacks.length).fill(false),
       includeNsfwQuestions: false,
       includeUsedQuestions: false
     }
@@ -23,7 +23,7 @@ export default class PackSelectionPhase extends Component {
           <div className="small-header">Please select question packs</div>
           <form>
             <div id="warning" className="notice-red" />
-            {gameState.packOptions.map((pack, key) => {
+            {gameState.possiblePacks.map((pack, key) => {
               return (
                 <div key={key} className="form-group">
                   <input
@@ -31,9 +31,9 @@ export default class PackSelectionPhase extends Component {
                     type="checkbox"
                     name="questionPack[]"
                     id={"questionPack-" + key}
-                    value={pack}
-                    onChange={(e, pack) => this.handleCheck(e, key)} />
-                  <label htmlFor={ "questionPack-" + key}>{pack}</label>
+                    value={pack.name}
+                    onChange={e => this.handleCheck(e, key)} />
+                  <label htmlFor={ "questionPack-" + key}>{pack.name}</label>
                 </div>
               )
             })}
@@ -45,7 +45,7 @@ export default class PackSelectionPhase extends Component {
                 type="checkbox"
                 name="includeNsfwQuestions"
                 id="includeNsfwQuestions"
-                onChange={(e, pack) => this.handleCheck(e, 'includeNsfwQuestions')} />
+                onChange={e => this.handleCheck(e, 'includeNsfwQuestions')} />
               <label htmlFor="includeNsfwQuestions">Include NSFW Questions</label>
             </div>
             <div className="form-group col-sm-6">
@@ -54,7 +54,7 @@ export default class PackSelectionPhase extends Component {
                 type="checkbox"
                 name="includeUsedQuestions"
                 id="includeUsedQuestions"
-                onChange={(e, pack) => this.handleCheck(e, 'includeUsedQuestions')} />
+                onChange={e => this.handleCheck(e, 'includeUsedQuestions')} />
               <label htmlFor="includeUsedQuestions">Include Used Questions</label>
             </div>
             <hr />
@@ -114,7 +114,7 @@ export default class PackSelectionPhase extends Component {
 
     const packs = this.state.selectedPacks
       .filter(selected => selected)
-      .map((_, key) => gameState.packOptions[key])
+      .map((_, key) => gameState.possiblePacks[key].id)
     const { includeNsfwQuestions, includeUsedQuestions } = this.state
 
     engine.gamepadInput({
