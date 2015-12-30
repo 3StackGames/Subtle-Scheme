@@ -24,7 +24,7 @@ export default class Display extends Component {
   }
 
   render() {
-    const { gameState } = this.props
+    const { gameState, auth } = this.props
     const CurrentPhase = currentPhase(gameState, phases)
 
     return (

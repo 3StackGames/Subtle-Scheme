@@ -15,7 +15,7 @@ const AUTH_FAIL = 'subtle-scheme/auth/AUTH_FAIL'
 
 const initialState = {
   token: null,
-  user: null,
+  username: null,
   isLoading: false,
   error: null
 }
@@ -31,7 +31,7 @@ export default function reducer(state = initialState, action = {}) {
     case CREATE_SUCCESS:
       return {
         ...state,
-        errors: null,
+        error: null,
         isLoading: false
       }
     // case CREATE_FAIL:
@@ -49,7 +49,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         token: payload.token,
-        currentUser: payload.currentUser,
+        username: payload.username,
         error: null,
         isLoading: false
       }
@@ -63,7 +63,7 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         token: payload.token,
-        currentUser: payload.currentUser
+        username: payload.username
       }
     case AUTH_REQUEST:
       return {
@@ -80,19 +80,19 @@ export default function reducer(state = initialState, action = {}) {
       return {
         ...state,
         token: null,
-        currentUser: null
+        username: null
       }
     default:
       return state
   }
 }
 
-function loginSuccess(token, currentUser) {
+function loginSuccess(token, username) {
   return {
     type: LOGIN_SUCCESS,
     payload: {
       token,
-      currentUser
+      username
     }
   }
 }
@@ -120,7 +120,7 @@ function authFail(err) {
 function processToken(token, dispatch) {
   const decoded = jwt.decode(token)
   const { username } = decoded
-  localStorage.setItem('token', token)
+  localStorage.setItem('gamepad.token', token)
   dispatch(loginSuccess(token, username))
 }
 
@@ -173,18 +173,18 @@ export const login = (username, password) => dispatch => {
 
 export const loginSync = (token) => {
   const decoded = jwt.decode(token)
-  const user = JSON.parse(decoded.sub)
+  const { username } = decoded
   return {
     type: LOGIN_SYNC,
     payload: {
       token,
-      user
+      username
     }
   }
 }
 
 export const logout = () => {
-  localStorage.removeItem('token')
+  localStorage.removeItem('gamepad.token')
   return {
     type: LOGOUT
   }

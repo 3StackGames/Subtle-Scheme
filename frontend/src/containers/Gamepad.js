@@ -7,6 +7,7 @@ import autobind from 'autobind-decorator'
 import engine from '../engine'
 import * as gameStateActs from '../modules/gameState'
 import * as playerActs from '../modules/currentPlayer'
+import * as authActs from '../modules/auth'
 import { gamepadPhases as phases } from '../components'
 import { currentPhase, bindGameStateDecorator } from '../utils'
 
@@ -23,6 +24,7 @@ export default class Gamepad extends Component {
 
     this.gameStateActs = bindActionCreators(gameStateActs, props.dispatch)
     this.playerActs = bindActionCreators(playerActs, props.dispatch)
+    this.authActs = bindActionCreators(authActs, props.dispatch)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,7 +38,7 @@ export default class Gamepad extends Component {
   }
 
   render() {
-    const { gameState, currentPlayer } = this.props
+    const { gameState, currentPlayer, auth } = this.props
     const CurrentPhase = currentPhase(gameState, phases)
 
     return (
@@ -44,13 +46,15 @@ export default class Gamepad extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Subtle Scheme</h1>
+              <h1>Subtle Scheme {auth.username ? `| ${auth.username}` : ''}</h1>
               <div id="gamepad">
                 <CurrentPhase
                   engine={engine}
                   gameState={gameState}
                   currentPlayer={currentPlayer}
-                  playerActs={this.playerActs} />
+                  playerActs={this.playerActs}
+                  auth={auth}
+                  authActs={this.authActs} />
               </div>
             </div>
           </div>

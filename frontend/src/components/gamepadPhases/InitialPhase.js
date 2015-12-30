@@ -44,7 +44,7 @@ export default class InitialPhase extends Component {
     }
 
     return (
-      <div>
+      <div style={{ display: 'flex', flexDirection: 'column'}}>
         <div className="small-header">Join Room</div>
         <form>
           {foundRoom}
@@ -78,8 +78,70 @@ export default class InitialPhase extends Component {
             </button>
           </div>
         </form>
+        <div className="login-wrap">
+          <h3>Login</h3>
+          <p className="text-detail">We'll make sure you don't get repeat questions :)</p>
+          <form>
+            <div className="form-group">
+              <label htmlFor="loginUsername">Username</label>
+              <input
+                type="text"
+                className="form-control"
+                id="loginUsername"
+                onChange={this.handleUsernameInput} />
+            </div>
+            <div className="form-group">
+              <label htmlFor="loginPassword">Password</label>
+              <input
+                type="password"
+                className="form-control"
+                id="loginPassword"
+                onChange={this.handlePasswordInput} />
+            </div>
+            <div className="form-group">
+              <label>
+                <input type="checkbox" onChange={this.handleCreateToggle}/> Create new account
+              </label>
+            </div>
+          </form>
+          <button className="btn-login" onClick={this.authenticate}>Submit</button>
+        </div>
       </div>
     )
+  }
+
+  @autobind
+  handleUsernameInput(e) {
+    const input = e.target.value
+    this.setState({
+      username: input
+    })
+  }
+
+  @autobind
+  handlePasswordInput(e) {
+    const input = e.target.value
+    this.setState({
+      password: input
+    })
+  }
+
+  @autobind
+  handleCreateToggle(e) {
+    const isChecked = e.target.checked
+    this.setState({
+      isCreatingAccount: isChecked
+    })
+  }
+
+  @autobind
+  authenticate(e) {
+    const { isCreatingAccount, username, password } = this.state
+    if (isCreatingAccount) {
+      this.props.authActs.createAccount(username, password)
+    } else {
+      this.props.authActs.login(username, password)
+    }
   }
 
   get everyoneIsInButton() {
@@ -147,7 +209,7 @@ export default class InitialPhase extends Component {
   @autobind
   handlePlayerJoin(e) {
     const { username, gameCode } = this.state
-    const { playerActs, engine } = this.props
+    const { playerActs, engine, auth } = this.props
     e.preventDefault()
     e.target.disabled = true
 
@@ -161,7 +223,8 @@ export default class InitialPhase extends Component {
 
     engine.gamepadJoin({
       gameCode,
-      name: username
+      accountName: auth.username,
+      displayName: username
     })
   }
 
@@ -170,10 +233,14 @@ export default class InitialPhase extends Component {
     e.preventDefault()
     e.target.disabled = true
 
-    const { playerActs, engine } = this.props
+    const { playerActs, engine, auth } = this.props
     const { displayName, gameCode } = JSON.parse(localStorage.getItem('gamepad.user'))
 
     playerActs.setPlayer({ displayName, joined: false })
-    engine.gamepadJoin({ name: displayName, gameCode })
+    engine.gamepadJoin({
+      gameCode,
+      displayName,
+      accountName: auth.username
+    })
   }
 }
