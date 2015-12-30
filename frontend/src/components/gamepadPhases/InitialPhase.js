@@ -147,7 +147,7 @@ export default class InitialPhase extends Component {
   @autobind
   handlePlayerJoin(e) {
     const { username, gameCode } = this.state
-    const { playerActs, engine } = this.props
+    const { playerActs, engine, auth } = this.props
     e.preventDefault()
     e.target.disabled = true
 
@@ -161,7 +161,8 @@ export default class InitialPhase extends Component {
 
     engine.gamepadJoin({
       gameCode,
-      name: username
+      displayName: username,
+      accountName: auth.user
     })
   }
 
@@ -170,10 +171,10 @@ export default class InitialPhase extends Component {
     e.preventDefault()
     e.target.disabled = true
 
-    const { playerActs, engine } = this.props
+    const { playerActs, engine, auth } = this.props
     const { displayName, gameCode } = JSON.parse(localStorage.getItem('gamepad.user'))
 
     playerActs.setPlayer({ displayName, joined: false })
-    engine.gamepadJoin({ name: displayName, gameCode })
+    engine.gamepadJoin({ displayName, gameCode, accountName: auth.user })
   }
 }
