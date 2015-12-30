@@ -19,6 +19,20 @@ export default class InitialPhase extends Component {
 
   // NOTE: Handle found room
   render() {
+    const user = JSON.parse(localStorage.getItem('gamepad.user'))
+    const timestamp = parseInt(localStorage.getItem('gamepad.timestamp'), 10)
+    const difference = (+new Date - timestamp) / (1000 * 60 * 60)
+    let foundRoom
+
+    if(typeof user === "object" && difference <= 3)
+    {
+      foundRoom = (
+        <div className="form-group">
+          <label>Found Room:</label>
+          <button onClick={this.handleJoinRoom} type="button" className="btn">Join Back {user.gameCode} as {user.displayName}</button>
+        </div>
+      )
+    }
 
     if (objectPath.get(this.props, ['currentPlayer', 'joined'])) {
       return (
@@ -33,6 +47,7 @@ export default class InitialPhase extends Component {
       <div>
         <div className="small-header">Join Room</div>
         <form>
+          {foundRoom}
           <div id="warning" className="notice-red" />
           <div className="form-group">
             <label htmlFor="username">Username</label>
@@ -140,9 +155,25 @@ export default class InitialPhase extends Component {
       displayName: this.state.username,
       joined: false
     })
+
+    localStorage.removeItem('gamepad.user');
+    localStorage.removeItem('gamepad.timestamp');
+
     engine.gamepadJoin({
       gameCode,
       name: username
     })
+  }
+
+  @autobind
+  handleJoinRoom(e) {
+    e.preventDefault()
+    e.target.disabled = true
+
+    const { playerActs, engine } = this.props
+    const { displayName, gameCode } = JSON.parse(localStorage.getItem('gamepad.user'))
+
+    playerActs.setPlayer({ displayName, joined: false })
+    engine.gamepadJoin({ name: displayName, gameCode })
   }
 }
