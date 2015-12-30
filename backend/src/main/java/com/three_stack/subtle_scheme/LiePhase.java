@@ -6,7 +6,7 @@ import com.three_stack.digital_compass.backend.BasicPhase;
 import com.three_stack.digital_compass.backend.InvalidInputException;
 
 public class LiePhase extends BasicPhase {
-    private QuestionService questionService;
+    private transient QuestionService questionService;
 
     @Override
     public Class getAction() {
