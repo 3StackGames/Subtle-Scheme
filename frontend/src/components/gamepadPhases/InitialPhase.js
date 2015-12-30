@@ -222,7 +222,7 @@ export default class InitialPhase extends Component {
     localStorage.removeItem('gamepad.timestamp');
 
     engine.gamepadJoin({
-      gameCode.toUpperCase(),
+      gameCode: gameCode.toUpperCase(),
       accountName: auth.username,
       displayName: username
     })
