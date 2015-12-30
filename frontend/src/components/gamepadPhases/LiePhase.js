@@ -106,7 +106,7 @@ export default class LiePhase extends Component {
       msg = "Enter a lie!"
     }
     else if (clean(lie) === clean(answer) || lieExists) {
-      msg = "You picked either a lie or a truth! Please enter something else."
+      msg = "You picked either someone else's lie or the truth! Please enter something else."
     }
 
 
