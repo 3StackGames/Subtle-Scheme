@@ -108,7 +108,7 @@ export default class PackSelectionPhase extends Component {
 
   @autobind
   submitPacks(e) {
-    const { gameState, currentPlayer, engine, auth } = this.props
+    const { gameState, currentPlayer, engine } = this.props
     e.preventDefault()
     e.target.disabled = true
 
@@ -121,8 +121,7 @@ export default class PackSelectionPhase extends Component {
       includeNsfwQuestions,
       includeUsedQuestions,
       packs,
-      displayName: currentPlayer.displayName,
-      accountName: auth.username,
+      player: currentPlayer.displayName,
       gameCode: gameState.gameCode
     })
   }
