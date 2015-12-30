@@ -14,13 +14,13 @@ gulp.task('sass', function () {
 });
 
 gulp.task('script', function() {
-  browserify('src/scripts/main.js')
+  browserify('src/index.js')
     .transform(babelify.configure({
       optional: ['es7.decorators', 'es7.classProperties']
     }))
     .bundle()
     .pipe(source('bundle.js'))
-    .pipe(gulp.dest('dist/scripts'))
+    .pipe(gulp.dest('dist/'))
 });
 
 gulp.task('watch', function() {
@@ -31,4 +31,3 @@ gulp.task('watch', function() {
 
 gulp.task('build', ['sass', 'script']);
 gulp.task('default', ['build']);
-
