@@ -1,17 +1,20 @@
 import request from 'superagent-bluebird-promise'
 import jwt from 'jsonwebtoken'
 
-const LOGIN_REQUEST = 'thoughtshare-fe/auth/LOGIN_REQUEST'
-const LOGIN_SUCCESS = 'thoughtshare-fe/auth/LOGIN_SUCCESS'
-const LOGIN_FAIL = 'thoughtshare-fe/auth/LOGIN_FAIL'
-const LOGIN_SYNC = 'thoughtshare-fe/auth/LOGIN_SYNC'
-const LOGOUT = 'thoughtshare-fe/auth/LOGOUT'
-const SET_TOKEN = 'thoughtshare-fe/auth/SET_TOKEN'
+const CREATE_REQUEST = 'subtle-scheme/auth/CREATE_REQUEST'
+const CREATE_SUCCESS = 'subtle-scheme/auth/CREATE_SUCCESS'
+// const CREATE_FAIL = 'subtle-scheme/auth/CREATE_FAIL'
+const LOGIN_REQUEST = 'subtle-scheme/auth/LOGIN_REQUEST'
+const LOGIN_SUCCESS = 'subtle-scheme/auth/LOGIN_SUCCESS'
+// const LOGIN_FAIL = 'subtle-scheme/auth/LOGIN_FAIL'
+const LOGIN_SYNC = 'subtle-scheme/auth/LOGIN_SYNC'
+const LOGOUT = 'subtle-scheme/auth/LOGOUT'
+const AUTH_FAIL = 'subtle-scheme/auth/AUTH_ERROR'
 
 
 const initialState = {
   token: null,
-  currentUser: null,
+  user: null,
   isLoading: false,
   error: null
 }
@@ -19,6 +22,23 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   const { type, payload } = action
   switch (type) {
+    case CREATE_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
+    case CREATE_SUCCESS:
+      return {
+        ...state,
+        errors: null,
+        isLoading: false
+      }
+    // case CREATE_FAIL:
+    //   return {
+    //     ...state,
+    //     error: payload,
+    //     isLoading: false
+    //   }
     case LOGIN_REQUEST:
       return {
         ...state,
@@ -32,17 +52,23 @@ export default function reducer(state = initialState, action = {}) {
         error: null,
         isLoading: false
       }
-    case LOGIN_FAIL:
-      return {
-        ...state,
-        error: payload,
-        isLoading: false
-      }
+    // case LOGIN_FAIL:
+    //   return {
+    //     ...state,
+    //     error: payload,
+    //     isLoading: false
+    //   }
     case LOGIN_SYNC:
       return {
         ...state,
         token: payload.token,
         currentUser: payload.currentUser
+      }
+    case AUTH_FAIL:
+      return {
+        ...state,
+        error: payload,
+        isLoading: false
       }
     case LOGOUT:
       return {
@@ -78,36 +104,75 @@ function loginFail(err) {
   }
 }
 
-export const login = (username, password) => dispatch => {
-  dispatch(loginRequest())
+function authFail(err) {
+  return {
+    type: AUTH_FAIL,
+    payload: err
+  }
+}
+
+function processToken(token, dispatch) {
+  const decoded = jwt.decode(token)
+  const user = JSON.parse(decoded.sub)
+  localStorage.setItem('token', token)
+  dispatch(loginSuccess(token, user))
+}
+
+export const createAccount = (username, password) => dispatch => {
+  dispatch(createAccountRequest())
 
   request
-    .post('http://localhost:4000/api/login')
+    .post('http://localhost:3000/api/v1/users/create')
     .type('application/json')
     .send({
       username,
       password
     })
     .then(res => {
-      const { token } = res.body.data
-      const decoded = jwt.decode(token)
-      const currentUser = JSON.parse(decoded.sub)
-      localStorage.setItem('token', token)
-      dispatch(loginSuccess(token, currentUser))
+      return request
+        .post('http://localhost:3000/api/v1/authenticate/login')
+        .type('application/json')
+        .send({
+          username,
+          password
+        })
+    })
+    .then(res => {
+      const { token } = res.body
+      processToken(token, dispatch)
     })
     .catch(err => {
-      dispatch(loginFail(err))
+      dispatch(authFail(err.message))
+    })
+}
+
+export const login = (username, password) => dispatch => {
+  dispatch(loginRequest())
+
+  request
+    .post('http://localhost:3000/api/v1/authenticate/login')
+    .type('application/json')
+    .send({
+      username,
+      password
+    })
+    .then(res => {
+      const { token } = res.body
+      processToken(token, dispatch)
+    })
+    .catch(err => {
+      dispatch(authFail(err.message))
     })
 }
 
 export const loginSync = (token) => {
   const decoded = jwt.decode(token)
-  const currentUser = JSON.parse(decoded.sub)
+  const user = JSON.parse(decoded.sub)
   return {
     type: LOGIN_SYNC,
     payload: {
       token,
-      currentUser
+      user
     }
   }
 }
