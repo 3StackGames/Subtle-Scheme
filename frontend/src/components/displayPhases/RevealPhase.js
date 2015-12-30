@@ -194,9 +194,9 @@ const DisplayScore = ({ players, lies }) => {
     return (
       <div key={player.displayName} className="playerBoardItemContainer">
         <div className={"playerBoardItem player_" + playerId(player.displayName)}>
-          <div className="playerAnswer">{ playerLie(player.displayName) }</div>
-          <div className="playerName">{ player.displayName }</div>
-          <div className="totalPoints">{ player.score }</div>
+          <div className="playerAnswer"><p>{playerLie(player.displayName)}</p></div>
+          <div className="playerName">{player.displayName}</div>
+          <div className="totalPoints">{player.score}</div>
         </div>
       </div>
     )
