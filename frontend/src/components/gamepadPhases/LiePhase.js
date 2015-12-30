@@ -19,10 +19,7 @@ export default class LiePhase extends Component {
     const gameCode = gameState.gameCode
     const displayName = currentPlayer.displayName
 
-    console.log('LIEPHASE', gameCode, displayName)
-
-    if(gameCode && displayName)
-    {
+    if (gameCode && displayName) {
       localStorage.setItem('gamepad.user', JSON.stringify({ displayName, gameCode }))
       localStorage.setItem('gamepad.timestamp', +new Date)
     }

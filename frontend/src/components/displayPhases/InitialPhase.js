@@ -16,7 +16,7 @@ export default class InitialPhase extends Component {
 
     if(gameCode !== null && gameCode.length == 4 && difference <= 3)
     {
-      if(confirm('Found Game Code: ' + gameCode + '\nWould you like to continue?')) 
+      if(confirm('Found Game Code: ' + gameCode + '\nWould you like to continue?'))
       {
         this.props.engine.displayJoin(gameCode)
         return
@@ -40,7 +40,7 @@ export default class InitialPhase extends Component {
           </div>
 
           <div className="content">
-            <p>Join on your phone or tablet at <span className="everybody">http://SubtleSche.me/</span></p>
+            <p>Join on your phone or tablet at <span className="everybody">{'http://Bamboozle.io'}</span></p>
             <p>Press <span className="everybody">EVERYBODY IS IN</span> to start the game.</p>
           </div>
           <DisplayLobby players={players} />
