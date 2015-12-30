@@ -16,8 +16,6 @@ export default class LiePhase extends Component {
   componentDidMount() {
     const { gameState, currentPlayer } = this.props
 
-    if(gameState.questionCount > 1) return
-
     const gameCode = gameState.gameCode
     const displayName = currentPlayer.displayName
 
