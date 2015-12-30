@@ -36,7 +36,7 @@ export default class Gamepad extends Component {
   }
 
   render() {
-    const { gameState, currentPlayer } = this.props
+    const { gameState, currentPlayer, auth } = this.props
     const CurrentPhase = currentPhase(gameState, phases)
 
     return (
@@ -50,7 +50,9 @@ export default class Gamepad extends Component {
                   engine={engine}
                   gameState={gameState}
                   currentPlayer={currentPlayer}
-                  playerActs={this.playerActs} />
+                  playerActs={this.playerActs}
+                  auth={auth}
+                  />
               </div>
             </div>
           </div>
