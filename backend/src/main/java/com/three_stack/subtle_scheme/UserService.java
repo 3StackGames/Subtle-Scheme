@@ -17,7 +17,7 @@ public class UserService extends MongoService {
     }
 
     public User getUser(String username) {
-        Document query = new Document(Config.USER_USERNAME, username);
+        Document query = new Document(Config.USER_USERNAME, username.toLowerCase());
 
         MongoCursor<Document> cursor = userCollection.find(query).iterator();
         if(!cursor.hasNext()) {

@@ -5,6 +5,10 @@ import com.three_stack.digital_compass.backend.BasicGameState;
 import com.three_stack.digital_compass.backend.BasicPhase;
 import com.three_stack.digital_compass.backend.InvalidInputException;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 public class LiePhase extends BasicPhase {
     private transient QuestionService questionService;
 
@@ -18,9 +22,13 @@ public class LiePhase extends BasicPhase {
         GameState gameState = (GameState) state;
 
         questionService = new QuestionService();
-        int questionId = gameState.getPossibleQuestions().remove(0);
+        List<Integer> possibleQuestionIds = gameState.getPossibleQuestions();
+        Random random = new Random();
+        int questionIndex = random.nextInt(possibleQuestionIds.size());
+        int questionId = gameState.getPossibleQuestions().remove(questionIndex);
         Question question = questionService.getQuestion(questionId);
         gameState.setCurrentQuestion(question);
+        gameState.incrementQuestionCount();
     }
 
 	@Override

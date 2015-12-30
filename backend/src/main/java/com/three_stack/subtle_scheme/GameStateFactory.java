@@ -6,7 +6,7 @@ import com.three_stack.digital_compass.backend.BasicGameStateFactory;
 public class GameStateFactory extends BasicGameStateFactory {
     @Override
     public BasicGameState createState() {
-    	GameState gs = new GameState(new Instruction(10, 20, "Here is a new instruction", 5));
+    	GameState gs = new GameState(new Instruction(100, 200, "Here is a new instruction", 5));
         gs.transitionPhase(new PackSelectionPhase());
         return gs;
     }

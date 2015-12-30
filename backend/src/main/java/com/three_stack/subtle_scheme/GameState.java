@@ -90,7 +90,6 @@ public class GameState extends BasicGameState {
     }
 
     public void setCurrentQuestion(Question question) {
-        incrementQuestionCount();
         this.currentQuestion = question;
     }
 

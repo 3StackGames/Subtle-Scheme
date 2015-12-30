@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Set;
 
 public class QuestionService extends MongoService {
-    MongoCollection<Document> packCollection;
-    MongoCollection<Document> questionCollection;
+    private MongoCollection<Document> packCollection;
+    private MongoCollection<Document> questionCollection;
 
     public QuestionService() {
         packCollection = database.getCollection(Config.MONGO_PACK_COLLECTION);

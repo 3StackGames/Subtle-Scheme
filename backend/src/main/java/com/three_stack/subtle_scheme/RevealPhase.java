@@ -10,28 +10,34 @@ public class RevealPhase extends BasicPhase {
 		return RevealAction.class;
 	}
 
+
+    @Override
+    public BasicGameState onDisplayActionComplete(BasicGameState state) {
+        GameState gameState = (GameState) super.onDisplayActionComplete(state);
+        //move on as soon as display action is done
+
+
+        //mark questions as used for authenticated users
+        UserService userService = new UserService();
+        userService.markQuestionsUsed(gameState.getPlayers(), gameState.getCurrentQuestion().getId());
+        //prepare for new question
+        Instruction instruction = gameState.getCurrentInstruction();
+        gameState.prepareForNewQuestion();
+        if(gameState.getQuestionCount() < instruction.getQuestionLimit()) {
+            //new round
+            gameState.transitionPhase(new LiePhase());
+        } else {
+            //game over
+            gameState.transitionPhase(new EndPhase());
+        }
+
+        return gameState;
+    }
+
+
 	@Override
 	public BasicGameState processAction(BasicAction action, BasicGameState state) {
-		GameState gameState = (GameState) state;
-        RevealAction revealAction = (RevealAction) action;
-        
-		if(revealAction.isMoveOn()) {
-            //mark questions as used for authenticated users
-            UserService userService = new UserService();
-            userService.markQuestionsUsed(gameState.getPlayers(), gameState.getCurrentQuestion().getId());
-			//prepare for new question
-			Instruction instruction = gameState.getCurrentInstruction();
-			gameState.prepareForNewQuestion();
-			if(gameState.getQuestionCount() < instruction.getQuestionLimit()) {
-				//new round
-				gameState.transitionPhase(new LiePhase());
-			} else {
-				//game over
-				gameState.transitionPhase(new EndPhase());
-			}
-		} else {
-			System.out.println("Uh Oh. Received a weird RevealAction");
-		}
-		return gameState;
+		//no gamepad input expected
+		return state;
 	}
 }
