@@ -15,7 +15,11 @@ var router = require('./routes/router')
 
 //setup
 var app = express()
-mongoose.connect(config.MONGO_DB_URI)
+
+mongoose.connect(config.MONGO_DB_URI, {
+    user: config.MONGO_DB_USER,
+    pass: config.MONGO_DB_PASSWORD
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'))
