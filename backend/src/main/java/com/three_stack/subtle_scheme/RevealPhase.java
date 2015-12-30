@@ -16,6 +16,10 @@ public class RevealPhase extends BasicPhase {
         RevealAction revealAction = (RevealAction) action;
         
 		if(revealAction.isMoveOn()) {
+            //mark questions as used for authenticated users
+            UserService userService = new UserService();
+            userService.markQuestionsUsed(gameState.getPlayers(), gameState.getCurrentQuestion().getId());
+			//prepare for new question
 			Instruction instruction = gameState.getCurrentInstruction();
 			gameState.prepareForNewQuestion();
 			if(gameState.getQuestionCount() < instruction.getQuestionLimit()) {

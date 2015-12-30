@@ -1,7 +1,9 @@
 package com.three_stack.subtle_scheme;
 
+import org.bson.Document;
+
 public class Question extends Belief {
-	
+	private int id;
 	private String question;
 	private String answer;
 	
@@ -10,7 +12,22 @@ public class Question extends Belief {
 		this.question = question;
 		this.answer = answer;
 	}
-	
+
+	public Question(Document document) {
+        super();
+        this.id = document.getInteger(Config.QUESTION_ID);
+        this.question = document.getString(Config.QUESTION_PROMPT);
+        this.answer = document.getString(Config.QUESTION_ANSWER);
+    }
+
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
 	public String getQuestion() {
 		return question;
 	}
