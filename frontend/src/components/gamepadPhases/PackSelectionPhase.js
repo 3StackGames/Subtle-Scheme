@@ -8,12 +8,13 @@ export default class PackSelectionPhase extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      selectedPacks: R.range(0, props.gameState.packOptions.length).fill(false)
+      selectedPacks: R.range(0, props.gameState.packOptions.length).fill(false),
+      includeNsfwQuestions: false,
+      includeUsedQuestions: false
     }
   }
 
   render() {
-    // let state = this.state.gameState;
     const { gameState, currentPlayer } = this.props
 
     if(gameState.players[0].displayName === currentPlayer.displayName) {
@@ -34,8 +35,29 @@ export default class PackSelectionPhase extends Component {
                     onChange={(e, pack) => this.handleCheck(e, key)} />
                   <label htmlFor={ "questionPack-" + key}>{pack}</label>
                 </div>
-              );
+              )
             })}
+            <hr />
+            <h4><strong>Options</strong></h4>
+            <div className="form-group col-sm-6">
+              <input
+                className="form-control checkbox"
+                type="checkbox"
+                name="includeNsfwQuestions"
+                id="includeNsfwQuestions"
+                onChange={(e, pack) => this.handleCheck(e, 'includeNsfwQuestions')} />
+              <label htmlFor="includeNsfwQuestions">Include NSFW Questions</label>
+            </div>
+            <div className="form-group col-sm-6">
+              <input
+                className="form-control checkbox"
+                type="checkbox"
+                name="includeUsedQuestions"
+                id="includeUsedQuestions"
+                onChange={(e, pack) => this.handleCheck(e, 'includeUsedQuestions')} />
+              <label htmlFor="includeUsedQuestions">Include Used Questions</label>
+            </div>
+            <hr />
             <button
               onClick={this.submitPacks}
               disabled={!this.isInputValid}
@@ -44,10 +66,10 @@ export default class PackSelectionPhase extends Component {
             </button>
           </form>
         </div>
-      );
+      )
     }
 
-    return <div className="small-header">Waiting for question packs to be selected.</div>;
+    return <div className="small-header">Waiting for question packs to be selected.</div>
   }
 
   get isInputValid() {
@@ -62,11 +84,26 @@ export default class PackSelectionPhase extends Component {
   @autobind
   handleCheck(e, key) {
     const isChecked = e.target.checked
-    const selected = [...this.state.selectedPacks]
-    selected[key] = isChecked
-    this.setState({
-      selectedPacks: selected
-    })
+    const { selectedPacks, includeNsfwQuestions, includeUsedQuestions } = this.state
+
+    switch(key) {
+      case 'includeNsfwQuestions':
+        this.setState({
+          includeNsfwQuestions: !includeNsfwQuestions
+        })
+        break
+      case 'includeUsedQuestions':
+        this.setState({
+          includeUsedQuestions: !includeUsedQuestions
+        })
+        break
+      default:
+        const selected = [...selectedPacks]
+        selected[key] = isChecked
+        this.setState({
+          selectedPacks: selected
+        })
+    }
   }
 
   @autobind
@@ -78,8 +115,11 @@ export default class PackSelectionPhase extends Component {
     const packs = this.state.selectedPacks
       .filter(selected => selected)
       .map((_, key) => gameState.packOptions[key])
+    const { includeNsfwQuestions, includeUsedQuestions } = this.state
 
     engine.gamepadInput({
+      includeNsfwQuestions,
+      includeUsedQuestions,
       packs,
       player: currentPlayer.displayName,
       gameCode: gameState.gameCode
