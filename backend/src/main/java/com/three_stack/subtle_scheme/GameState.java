@@ -1,24 +1,25 @@
 package com.three_stack.subtle_scheme;
 
 import com.three_stack.digital_compass.backend.BasicGameState;
-import org.bson.types.ObjectId;
 
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 
 public class GameState extends BasicGameState {
 
     private Question currentQuestion;
 
-    private List<String> packs;
+    private List<Pack> packs;
 
-    private List<String> packOptions;
+    private List<Pack> possiblePacks;
 
-    private transient Set<ObjectId> askedQuestionIds;
+    private boolean includeNsfwQuestions = false;
 
-    private List<Lie> lies = new ArrayList<>();
+    private boolean includeUsedQuestions = false;
+
+    private transient List<Integer> possibleQuestions;
+
+    private List<Lie> lies;
 
     private final Instruction currentInstruction;
 
@@ -27,7 +28,6 @@ public class GameState extends BasicGameState {
 
     public GameState(Instruction instruction) {
         this.currentInstruction = instruction;
-        this.askedQuestionIds = new HashSet<>();
         this.packs = new ArrayList<>();
         prepareForNewQuestion();
     }
@@ -61,6 +61,21 @@ public class GameState extends BasicGameState {
         return lies;
     }
 
+    public boolean isIncludeNsfwQuestions() {
+        return includeNsfwQuestions;
+    }
+
+    public void setIncludeNsfwQuestions(boolean includeNsfwQuestions) {
+        this.includeNsfwQuestions = includeNsfwQuestions;
+    }
+
+    public boolean isIncludeUsedQuestions() {
+        return includeUsedQuestions;
+    }
+
+    public void setIncludeUsedQuestions(boolean includeUsedQuestions) {
+        this.includeUsedQuestions = includeUsedQuestions;
+    }
 
     public int getVoteCount() {
         return voteCount;
@@ -74,30 +89,32 @@ public class GameState extends BasicGameState {
         return currentQuestion;
     }
 
-    public void setCurrentQuestion(ObjectId objectId, Question question) {
+    public void setCurrentQuestion(Question question) {
         incrementQuestionCount();
-        this.askedQuestionIds.add(objectId);
         this.currentQuestion = question;
-
     }
 
-    public Set<ObjectId> getAskedQuestionIds() {
-        return askedQuestionIds;
-    }
-
-    public List<String> getPacks() {
+    public List<Pack> getPacks() {
         return packs;
     }
 
-    public void setPacks(List<String> packs) {
+    public void setPacks(List<Pack> packs) {
         this.packs = packs;
     }
 
-    public List<String> getPackOptions() {
-        return packOptions;
+    public List<Pack> getPossiblePacks() {
+        return possiblePacks;
     }
 
-    public void setPackOptions(List<String> packOptions) {
-        this.packOptions = packOptions;
+    public void setPossiblePacks(List<Pack> possiblePacks) {
+        this.possiblePacks = possiblePacks;
+    }
+
+    public List<Integer> getPossibleQuestions() {
+        return possibleQuestions;
+    }
+
+    public void setPossibleQuestions(List<Integer> possibleQuestions) {
+        this.possibleQuestions = possibleQuestions;
     }
 }

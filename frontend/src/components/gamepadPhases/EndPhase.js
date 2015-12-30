@@ -7,6 +7,9 @@ export default class EndPhase extends Component {
   constructor(props) {
     super(props)
     this.state = {}
+    
+    localStorage.removeItem('gamepad.user');
+    localStorage.removeItem('gamepad.timestamp');
   }
 
   render() {

@@ -10,6 +10,22 @@ export default class InitialPhase extends Component {
   }
 
   componentWillMount() {
+    const gameCode = localStorage.getItem('display.gameCode')
+    const timestamp = parseInt(localStorage.getItem('display.timestamp'), 10)
+    const difference = (+new Date - timestamp) / (1000 * 60 * 60)
+
+    if(gameCode !== null && gameCode.length == 4 && difference <= 3)
+    {
+      if(confirm('Found Game Code: ' + gameCode + '\nWould you like to continue?')) 
+      {
+        this.props.engine.displayJoin(gameCode)
+        return
+      } else {
+        localStorage.removeItem('display.gameCode')
+        localStorage.removeItem('display.timestamp')
+      }
+    }
+
     this.props.engine.displayJoin()
   }
 

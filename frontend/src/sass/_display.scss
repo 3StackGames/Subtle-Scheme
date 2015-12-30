@@ -266,52 +266,55 @@
         padding: 0 0 30px;
     }
 
+    @mixin add_player_color($color, $border, $bg) {
+        color: $color;
+        border-color: $border;
+        background: $bg;
+
+        .playerAnswer {
+            background: $bg;
+            border-color: $border;
+
+            &:before {
+                border-right-color: $bg !important;
+            }
+
+            &:after {
+                border-right-color: $border !important;
+            }
+        }
+    }
+
     .player_1 {
-        color: #64B5F6;
-        border-color: #64B5F6;
-        background: #BBDEFB;
+        @include add_player_color(#64B5F6, #64B5F6, #BBDEFB);
     }
 
     .player_2 {
-        color: #9575CD;
-        border-color: #9575CD;
-        background: #D1C4E9;
+        @include add_player_color(#9575CD, #9575CD, #D1C4E9);
     }
 
     .player_3 {
-        color: #81C784;
-        border-color: #81C784;
-        background: #C8E6C9;
+        @include add_player_color(#81C784, #81C784, #C8E6C9);
     }
 
     .player_4 {
-        color: #A1887F;
-        border-color: #A1887F;
-        background: #D7CCC8;
+        @include add_player_color(#A1887F, #A1887F, #D7CCC8);
     }
 
     .player_5 {
-        color: #F06292;
-        border-color: #F06292;
-        background: #F8BBD0;
+        @include add_player_color(#F06292, #F06292, #F8BBD0);
     }
 
     .player_6 {
-        color: #FFB74D;
-        border-color: #FFB74D;
-        background: #FFE0B2;
+        @include add_player_color(#FFB74D, #FFB74D, #FFE0B2);
     }
 
     .player_7 {
-        color: #90A4AE;
-        border-color: #90A4AE;
-        background: #CFD8DC;
+        @include add_player_color(#90A4AE, #90A4AE, #CFD8DC);
     }
 
     .player_8 {
-        color: #7986CB;
-        border-color: #7986CB;
-        background: #C5CAE9;
+        @include add_player_color(#7986CB, #7986CB, #C5CAE9);
     }
 
     .singleChoice {
@@ -355,8 +358,60 @@
     }
 
     .scoreBoard {
+        // max-width: 600px;
+        width: 100%;
+        padding: 60px 0 0;
+        margin: 0 auto 0;
+        
+        .playerBoardItemContainer {
+            overflow: hidden;
+        }
+
         .playerBoardItem {
-            & > div:not(.clear) {
+            font-size: 2em;
+            font-weight: 600;
+            margin: 0 0 10px;
+            padding: 10px 20px;
+            border: 1px solid;
+            width: 50%;
+            float: left;
+            position: relative;
+
+            .playerAnswer {
+                float: none;
+                width: auto;
+                padding: 10px 20px;
+                position: absolute;
+                top: -1px;
+                left: 100%;
+                margin-left: 13px;
+                border-width: 1px;
+                border-style: solid;
+                opacity: .7;
+
+                &:before,
+                &:after {
+                    content: "";
+                    width: 0;
+                    height: 0;
+                    position: absolute;
+                }
+
+                &:before {
+                    left: -20px;
+                    top: calc(50% - 10px);
+                    border: 10px solid transparent;
+                }
+
+                &:after {
+                    left: -24px;
+                    top: calc(50% - 12px);
+                    border: 12px solid transparent;
+                    z-index: -1;
+                }
+            }
+
+            & > div:not(.clear):not(.playerAnswer) {
                 float: left;
                 width: 50%;
             }
@@ -365,21 +420,7 @@
                 text-align: right;
             }
 
-            .clear {
-                clear: both;
-            }
-
-            font-size: 2em;
-            font-weight: 600;
-            margin: 0 0 10px;
-            padding: 10px 20px;
-            border: 1px solid;
         }
-
-        max-width: 600px;
-        width: 100%;
-        padding: 60px 0 0;
-        margin: 0 auto 0;
     }
 
     .to-fool, .for-truth {

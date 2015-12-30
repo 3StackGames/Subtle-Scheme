@@ -59,7 +59,7 @@ export default class RevealPhase extends Component {
       return (
         <div>
           <div className="showGameCode">Game Code: <span>{gameCode}</span></div>
-          <DisplayScore players={players} />
+          <DisplayScore players={players} lies={lies}/>
           <div className="small-text text-center">(Look at your gamepad screen!)</div>
         </div>
       )
@@ -171,7 +171,7 @@ export default class RevealPhase extends Component {
   }
 }
 
-const DisplayScore = ({ players }) => {
+const DisplayScore = ({ players, lies }) => {
   const sortedPlayers = [...players].sort((a, b) =>
     a.score < b.score ? 1 : 0
   )
@@ -183,12 +183,21 @@ const DisplayScore = ({ players }) => {
     return 0
   }
 
+  const playerLie = (playerName) => {
+    for (let i = 0; i < lies.length; i++) {
+      if (lies[i].liar === playerName) return lies[i].lie
+    }
+    return 0
+  }
+
   const playerList = sortedPlayers.map(player => {
     return (
-      <div key={player.displayName} className={"playerBoardItem player_" + playerId(player.displayName)}>
-        <div className="playerName">{ player.displayName }</div>
-        <div className="totalPoints">{ player.score }</div>
-        <div className="clear"></div>
+      <div key={player.displayName} className="playerBoardItemContainer">
+        <div className={"playerBoardItem player_" + playerId(player.displayName)}>
+          <div className="playerAnswer">{ playerLie(player.displayName) }</div>
+          <div className="playerName">{ player.displayName }</div>
+          <div className="totalPoints">{ player.score }</div>
+        </div>
       </div>
     )
   })

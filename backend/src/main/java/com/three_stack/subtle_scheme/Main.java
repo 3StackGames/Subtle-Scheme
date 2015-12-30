@@ -8,6 +8,6 @@ public class Main {
 
         PhaseManager phaseManager = new PhaseManager();
         String bridgeAddressPort = Config.getProperty("bridge.address") + ":" + Config.getProperty("bridge.port");
-        phaseManager.initialize(bridgeAddressPort, new GameStateFactory());
+        phaseManager.initialize(bridgeAddressPort, new GameStateFactory(), new PlayerFactory());
     }
 }

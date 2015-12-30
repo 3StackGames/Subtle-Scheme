@@ -22,12 +22,9 @@ export default class LiePhase extends Component {
     setTimeout(() => {
       engine.displayActionComplete({ gameCode })
     }, 1000)
-
-    // if(gameCode)
-    // {
-    //   localStorage.setItem('display.gameCode', gameCode);
-    //   localStorage.setItem('display.timestamp', +new Date);
-    // }
+    
+    localStorage.setItem('display.gameCode', gameCode);
+    localStorage.setItem('display.timestamp', +new Date);
   }
 
   render() {
