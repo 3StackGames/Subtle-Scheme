@@ -192,11 +192,12 @@ const DisplayScore = ({ players, lies }) => {
 
   const playerList = sortedPlayers.map(player => {
     return (
-      <div key={player.displayName} className={"playerBoardItem player_" + playerId(player.displayName)}>
-        <div className="playerAnswer">{ playerLie(player.displayName) }</div>
-        <div className="playerName">{ player.displayName }</div>
-        <div className="totalPoints">{ player.score }</div>
-        <div className="clear"></div>
+      <div key={player.displayName} className="playerBoardItemContainer">
+        <div className={"playerBoardItem player_" + playerId(player.displayName)}>
+          <div className="playerAnswer">{ playerLie(player.displayName) }</div>
+          <div className="playerName">{ player.displayName }</div>
+          <div className="totalPoints">{ player.score }</div>
+        </div>
       </div>
     )
   })
