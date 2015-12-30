@@ -23,6 +23,12 @@ public class LiePhase extends BasicPhase {
 
         questionService = new QuestionService();
         List<Integer> possibleQuestionIds = gameState.getPossibleQuestions();
+
+        //check if we're out of questions
+        if(possibleQuestionIds.isEmpty()) {
+            gameState.setOutOfQuestions(true);
+            return;
+        }
         Random random = new Random();
         int questionIndex = random.nextInt(possibleQuestionIds.size());
         int questionId = gameState.getPossibleQuestions().remove(questionIndex);

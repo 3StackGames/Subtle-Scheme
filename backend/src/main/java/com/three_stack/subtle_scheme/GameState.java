@@ -17,6 +17,8 @@ public class GameState extends BasicGameState {
 
     private boolean includeUsedQuestions = false;
 
+    private boolean outOfQuestions = false;
+
     private transient List<Integer> possibleQuestions;
 
     private List<Lie> lies;
@@ -115,5 +117,13 @@ public class GameState extends BasicGameState {
 
     public void setPossibleQuestions(List<Integer> possibleQuestions) {
         this.possibleQuestions = possibleQuestions;
+    }
+
+    public boolean isOutOfQuestions() {
+        return outOfQuestions;
+    }
+
+    public void setOutOfQuestions(boolean outOfQuestions) {
+        this.outOfQuestions = outOfQuestions;
     }
 }
