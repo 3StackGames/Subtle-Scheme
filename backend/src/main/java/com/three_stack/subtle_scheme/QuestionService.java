@@ -7,7 +7,9 @@ import org.bson.Document;
 
 import javax.print.Doc;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class QuestionService extends MongoService {
     MongoCollection<Document> packCollection;
@@ -57,13 +59,17 @@ public class QuestionService extends MongoService {
 
         //filter questions used
         if (!gameState.isIncludeUsedQuestions()) {
-            List<Document> ninQuestionList = new ArrayList<>();
-            for (BasicPlayer player : gameState.getPlayers()) {
-                for (Integer questionId : ((Player) player).getUser().getQuestionsUsed()) {
-                    ninQuestionList.add(new Document(Config.QUESTION_ID, questionId));
+            Set<Integer> ninQuestionList = new HashSet<>();
+            for (BasicPlayer basicPlayer : gameState.getPlayers()) {
+                if(!basicPlayer.isAuthenticated()) {
+                    continue;
                 }
+                Player player = (Player) basicPlayer;
+                User user = player.getUser();
+                List<Integer> questionsUsedIds = user.getQuestionsUsed();
+                ninQuestionList.addAll(questionsUsedIds);
             }
-            query.append("$nin", ninQuestionList);
+            query.append(Config.QUESTION_ID, new Document("$nin", new ArrayList<>(ninQuestionList)));
         }
 
         //filter packs

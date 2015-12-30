@@ -3,7 +3,7 @@ package com.three_stack.subtle_scheme;
 import com.three_stack.digital_compass.backend.BasicPlayer;
 
 public class Player extends BasicPlayer {
-    private User user;
+    private transient User user;
 
     public Player(BasicPlayer other) {
         super(other);
