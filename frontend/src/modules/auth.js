@@ -4,12 +4,13 @@ import jwt from 'jsonwebtoken'
 const CREATE_REQUEST = 'subtle-scheme/auth/CREATE_REQUEST'
 const CREATE_SUCCESS = 'subtle-scheme/auth/CREATE_SUCCESS'
 // const CREATE_FAIL = 'subtle-scheme/auth/CREATE_FAIL'
-const LOGIN_REQUEST = 'subtle-scheme/auth/LOGIN_REQUEST'
+// const LOGIN_REQUEST = 'subtle-scheme/auth/LOGIN_REQUEST'
 const LOGIN_SUCCESS = 'subtle-scheme/auth/LOGIN_SUCCESS'
 // const LOGIN_FAIL = 'subtle-scheme/auth/LOGIN_FAIL'
 const LOGIN_SYNC = 'subtle-scheme/auth/LOGIN_SYNC'
 const LOGOUT = 'subtle-scheme/auth/LOGOUT'
-const AUTH_FAIL = 'subtle-scheme/auth/AUTH_ERROR'
+const AUTH_REQUEST = 'subtle-scheme/auth/AUTH_REQUEST'
+const AUTH_FAIL = 'subtle-scheme/auth/AUTH_FAIL'
 
 
 const initialState = {
@@ -22,11 +23,11 @@ const initialState = {
 export default function reducer(state = initialState, action = {}) {
   const { type, payload } = action
   switch (type) {
-    case CREATE_REQUEST:
-      return {
-        ...state,
-        isLoading: true
-      }
+    // case CREATE_REQUEST:
+    //   return {
+    //     ...state,
+    //     isLoading: true
+    //   }
     case CREATE_SUCCESS:
       return {
         ...state,
@@ -39,11 +40,11 @@ export default function reducer(state = initialState, action = {}) {
     //     error: payload,
     //     isLoading: false
     //   }
-    case LOGIN_REQUEST:
-      return {
-        ...state,
-        isLoading: true
-      }
+    // case LOGIN_REQUEST:
+    //   return {
+    //     ...state,
+    //     isLoading: true
+    //   }
     case LOGIN_SUCCESS:
       return {
         ...state,
@@ -64,6 +65,11 @@ export default function reducer(state = initialState, action = {}) {
         token: payload.token,
         currentUser: payload.currentUser
       }
+    case AUTH_REQUEST:
+      return {
+        ...state,
+        isLoading: true
+      }
     case AUTH_FAIL:
       return {
         ...state,
@@ -81,12 +87,6 @@ export default function reducer(state = initialState, action = {}) {
   }
 }
 
-function loginRequest() {
-  return {
-    type: LOGIN_REQUEST
-  }
-}
-
 function loginSuccess(token, currentUser) {
   return {
     type: LOGIN_SUCCESS,
@@ -97,10 +97,16 @@ function loginSuccess(token, currentUser) {
   }
 }
 
-function loginFail(err) {
+// function loginFail(err) {
+//   return {
+//     type: LOGIN_FAIL,
+//     payload: err
+//   }
+// }
+
+function authRequest() {
   return {
-    type: LOGIN_FAIL,
-    payload: err
+    type: AUTH_REQUEST
   }
 }
 
@@ -113,13 +119,13 @@ function authFail(err) {
 
 function processToken(token, dispatch) {
   const decoded = jwt.decode(token)
-  const user = JSON.parse(decoded.sub)
+  const { username } = decoded
   localStorage.setItem('token', token)
-  dispatch(loginSuccess(token, user))
+  dispatch(loginSuccess(token, username))
 }
 
 export const createAccount = (username, password) => dispatch => {
-  dispatch(createAccountRequest())
+  dispatch(authRequest())
 
   request
     .post('http://localhost:3000/api/v1/users/create')
@@ -147,7 +153,7 @@ export const createAccount = (username, password) => dispatch => {
 }
 
 export const login = (username, password) => dispatch => {
-  dispatch(loginRequest())
+  dispatch(authRequest())
 
   request
     .post('http://localhost:3000/api/v1/authenticate/login')
