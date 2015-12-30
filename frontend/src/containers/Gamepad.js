@@ -46,7 +46,7 @@ export default class Gamepad extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Subtle Scheme {auth.username ? `| ${auth.username}` : ''}</h1>
+              <h1>Bamboozle {auth.username ? `| ${auth.username}` : ''}</h1>
               <div id="gamepad">
                 <CurrentPhase
                   engine={engine}

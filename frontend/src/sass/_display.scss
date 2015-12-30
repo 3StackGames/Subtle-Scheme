@@ -379,7 +379,7 @@
 
             .playerAnswer {
                 float: none;
-                width: auto;
+                width: calc(100% - 10px);
                 padding: 10px 20px;
                 position: absolute;
                 top: -1px;
@@ -388,6 +388,15 @@
                 border-width: 1px;
                 border-style: solid;
                 opacity: .7;
+
+                p {
+                    display: block;
+                    max-width: 100%;
+                    white-space: nowrap;
+                    margin: 0;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
 
                 &:before,
                 &:after {

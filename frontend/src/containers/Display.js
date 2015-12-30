@@ -32,7 +32,7 @@ export default class Display extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Subtle Scheme</h1>
+              <h1>Bamboozle</h1>
               <div id="display">
                 <CurrentPhase engine={engine} gameState={gameState} />
               </div>

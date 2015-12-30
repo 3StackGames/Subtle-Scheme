@@ -19,10 +19,7 @@ export default class LiePhase extends Component {
     const gameCode = gameState.gameCode
     const displayName = currentPlayer.displayName
 
-    console.log('LIEPHASE', gameCode, displayName)
-
-    if(gameCode && displayName)
-    {
+    if (gameCode && displayName) {
       localStorage.setItem('gamepad.user', JSON.stringify({ displayName, gameCode }))
       localStorage.setItem('gamepad.timestamp', +new Date)
     }
@@ -109,7 +106,7 @@ export default class LiePhase extends Component {
       msg = "Enter a lie!"
     }
     else if (clean(lie) === clean(answer) || lieExists) {
-      msg = "You picked either a lie or a truth! Please enter something else."
+      msg = "You picked either someone else's lie or the truth! Please enter something else."
     }
 
 

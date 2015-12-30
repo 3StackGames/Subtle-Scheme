@@ -8,6 +8,13 @@ export default class LiePhase extends Component {
     super(props)
 
     this.state = {}
+    this.instructionTimeout = () => {
+      setTimeout(() => {
+        props.engine.displayActionComplete({
+          gameCode: props.gameState.gameCode
+        })
+      }, 15000)
+    }
   }
 
   componentDidMount() {
@@ -15,21 +22,16 @@ export default class LiePhase extends Component {
     const { gameCode } = gameState
 
     if (gameState.questionCount > 1) {
-      engine.displayActionComplete({gameCode })
+      engine.displayActionComplete({ gameCode })
       return
     }
 
-    setTimeout(() => {
-      engine.displayActionComplete({ gameCode })
-    }, 1000)
-    
     localStorage.setItem('display.gameCode', gameCode);
     localStorage.setItem('display.timestamp', +new Date);
   }
 
   render() {
     const { gameState } = this.props
-
 
     return (
       <div>
@@ -50,11 +52,17 @@ export default class LiePhase extends Component {
       currentInstruction: instruction,
     } = gameState
 
-    if (questionCount < 1) {
+
+    if (questionCount === 1 && !displayComplete) {
+      this.instructionTimeout()
+      console.log(this)
       return (
-        <Instructions
-          bonusValue={instruction.trickBonusPointValue}
-          correctValue={instruction.correctAnswerPointValue} />
+        <div>
+          <Instructions
+            bonusValue={instruction.trickBonusPointValue}
+            correctValue={instruction.correctAnswerPointValue} />
+          <audio src="./assets/sounds/OnIn-1_edit.mp3" autoPlay></audio>
+        </div>
       )
     }
 
@@ -64,6 +72,7 @@ export default class LiePhase extends Component {
           <h3 className="title">{currentQuestion.question}</h3>
           <WaitingPlayerLies players={players} lies={lies}/>
         </div>
+        <audio src={`./assets/sounds/ss-${currentQuestion.id}_edit.mp3`} autoPlay></audio>
       </div>
     )
 
