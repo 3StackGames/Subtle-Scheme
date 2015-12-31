@@ -87,4 +87,14 @@ public class QuestionService extends MongoService {
         }
         return questionIds;
     }
+
+    public void updateQuestionMetadata(int questionId, int lieCount, int correctCount) {
+        Document query = new Document(Config.QUESTION_ID, questionId);
+
+        Document increment = new Document(Config.QUESTION_TOTAL_LIE_COUNT, lieCount);
+        increment.append(Config.QUESTION_TOTAL_CORRECT_COUNT, correctCount);
+        Document update = new Document("$inc", increment);
+
+        questionCollection.updateOne(query, update);
+    }
 }
