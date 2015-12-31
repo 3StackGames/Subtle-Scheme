@@ -9,9 +9,17 @@ import com.three_stack.digital_compass.backend.BasicPlayer;
  * Created by Hyunbin on 9/16/15.
  */
 public class VotePhase extends BasicPhase {
+	private transient QuestionService questionService;
+
 	@Override
 	public Class getAction() {
 		return VoteAction.class;
+	}
+
+	@Override
+	public void setup(BasicGameState state) {
+		super.setup(state);
+		questionService = new QuestionService();
 	}
 
 	public BasicGameState processAction(BasicAction action, BasicGameState state) {
@@ -50,15 +58,22 @@ public class VotePhase extends BasicPhase {
 	private void tallyScores(GameState gameState) {
 		final int pointsForCorrect = gameState.getCurrentInstruction().getCorrectAnswerPointValue();
 		final int pointsForTrick = gameState.getCurrentInstruction().getTrickBonusPointValue();
+
+
 		//give correct points
+		int correctCount = 0;
 		for(String player : gameState.getCurrentQuestion().getBelievers()) {
 			givePlayerPoint(gameState, player, pointsForCorrect);
+			correctCount++;
 		}
 		//give lie points
 		for(Lie lie : gameState.getLies()) {
 			int points = lie.getBelievers().size() * pointsForTrick;
 			givePlayerPoint(gameState, lie.getLiar(), points);
 		}
+
+		//update metadata
+		questionService.updateQuestionMetadata(gameState.getCurrentQuestion().getId(), gameState.getLies().size(), correctCount);
 	}
 	
 	private void givePlayerPoint(GameState gameState, String displayName, int value) {
