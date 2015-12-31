@@ -81,6 +81,7 @@ public class LiePhase extends BasicPhase {
     			Random r = new Random();
     			int i = r.nextInt(autoLies.size());
     			lieAction.setLie(autoLies.get(i));
+    			autoLies.remove(i);
     			
     			try {
     				state = processAction(lieAction, state);
