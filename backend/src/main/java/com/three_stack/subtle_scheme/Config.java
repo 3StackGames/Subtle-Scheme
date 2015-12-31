@@ -23,6 +23,8 @@ public class Config {
     public static final String QUESTION_NSFW = "nsfw";
     public static final String QUESTION_TOTAL_LIE_COUNT = "totalLieCount";
     public static final String QUESTION_TOTAL_CORRECT_COUNT = "totalCorrectCount";
+    public static final String QUESTION_ANSWERS = "answers";
+    public static final String QUESTION_AUTO_LIES = "autoLies";
 
     public static final String PACK_ID = "id";
     public static final String PACK_NAME = "name";
