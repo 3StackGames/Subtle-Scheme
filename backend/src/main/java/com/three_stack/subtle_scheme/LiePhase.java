@@ -48,7 +48,10 @@ public class LiePhase extends BasicPhase {
             if(lie.getLie().equals(lieText)) {
                 //found lie already in the game
                 throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie already submitted");
+            } else if (gameState.getCurrentQuestion().getAnswers().contains(lie.getLie())) {
+                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie is an answer");
             }
+
         }
 
 		Lie lie = new Lie(lieText, lieAction.getPlayer());
