@@ -1,6 +1,7 @@
 import React, { Component, PropTypes } from 'react'
 import ReactDOM, { render } from 'react-dom'
 import cx from 'classname'
+import { Link } from 'react-router'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
 import autobind from 'autobind-decorator'
@@ -32,7 +33,7 @@ export default class Display extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Bamboozle</h1>
+              <h1><Link to='/' className='header-logo'>Bamboozle</Link></h1>
               <div id="display">
                 <CurrentPhase engine={engine} gameState={gameState} />
               </div>

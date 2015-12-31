@@ -10,3 +10,14 @@
   font-size: 1.3em;
   border: none;
 }
+
+.header-logo {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: none;
+  }
+  &:visited {
+    color: $lightblue;
+  }
+}
