@@ -6,6 +6,10 @@ var jwt = require('jsonwebtoken')
 var config = require('../config')
 var User = require('../models/user')
 
+var BAD_AUTH = {
+    success: false,
+    message: 'Authentication failed. Username or Password were incorrect.'
+}
 
 mod.login = function(req, res) {
     User.findOne({
@@ -14,11 +18,11 @@ mod.login = function(req, res) {
         if (err) throw err
 
         if (!user) {
-            res.json({ success: false, message: 'Authentication failed. User not found.' })
+            res.json(BAD_AUTH)
         } else if (user) {
             // check if password matches
             bcrypt.compare(req.body.password, user.password, function(err, isCorrect) {
-                if(!isCorrect) res.json({ success: false, message: 'Authentication failed. Wrong password.' })
+                if(!isCorrect) res.json(BAD_AUTH)
                 
                 // if user is found and password is right
                 // create a token
