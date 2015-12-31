@@ -23,18 +23,19 @@ mod.login = function(req, res) {
             // check if password matches
             bcrypt.compare(req.body.password, user.password, function(err, isCorrect) {
                 if(!isCorrect) res.json(BAD_AUTH)
-                
-                // if user is found and password is right
-                // create a token
-                var token = jwt.sign({ name: user.name, username: user.username }, config.SECRET, {
-                expiresIn: '2 days' // expires in 24 hours
-                })
+                else { 
+                    // if user is found and password is right
+                    // create a token
+                    var token = jwt.sign({ name: user.name, username: user.username }, config.SECRET, {
+                    expiresIn: '2 days' // expires in 24 hours
+                    })
 
-                // return the information including token as JSON
-                res.json({
-                    success: true,
-                    token: token
-                })
+                    // return the information including token as JSON
+                    res.json({
+                        success: true,
+                        token: token
+                    })
+                }
             })
         }
 
