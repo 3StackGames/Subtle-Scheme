@@ -3,6 +3,7 @@ import ReactDOM, { render } from 'react-dom'
 import cx from 'classname'
 import { connect } from 'react-redux'
 import { bindActionCreators } from 'redux'
+import { Link } from 'react-router'
 import autobind from 'autobind-decorator'
 import engine from '../engine'
 import * as gameStateActs from '../modules/gameState'
@@ -46,7 +47,7 @@ export default class Gamepad extends Component {
         <div className="container">
           <div className="row">
             <div className="col-xs-12">
-              <h1>Bamboozle {auth.username ? `| ${auth.username}` : ''}</h1>
+              <h1><Link to='/' className='header-logo'>Bamboozle</Link></h1>
               <div id="gamepad">
                 <CurrentPhase
                   engine={engine}

@@ -23,6 +23,15 @@ export default class LiePhase extends Component {
       localStorage.setItem('gamepad.user', JSON.stringify({ displayName, gameCode }))
       localStorage.setItem('gamepad.timestamp', +new Date)
     }
+
+    this.props.engine.socket.on('Error', ({ gameCode, player, code, message }) => {
+      console.log('===============================')
+      console.log('error handled')
+      console.log('===============================')
+      this.setState({
+        alert: "You picked either someone else's lie or the truth! Please enter something else."
+      })
+    })
   }
 
   render() {
@@ -64,10 +73,6 @@ export default class LiePhase extends Component {
       <DisplayNotice />
     )
   }
-
-  // get isLieValid() {
-  //   return this.state.lie.length > 0
-  // }
 
   @autobind
   handleLieInput(e) {
