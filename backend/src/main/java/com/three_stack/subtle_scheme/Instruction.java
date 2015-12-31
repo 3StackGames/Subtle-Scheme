@@ -9,12 +9,14 @@ public class Instruction {
     private int trickBonusPointValue;
     private int correctAnswerPointValue;
     private String instructionText;
+    private int timerDuration;
 
-    public Instruction(int trickBonusPointValue, int correctAnswerPointValue, String instructionText, int questionLimit){
+    public Instruction(int trickBonusPointValue, int correctAnswerPointValue, String instructionText, int questionLimit, int timerDuration){
         this.trickBonusPointValue = trickBonusPointValue;
         this.correctAnswerPointValue = correctAnswerPointValue;
         this.instructionText = instructionText;
         this.questionLimit = questionLimit;
+        this.timerDuration = timerDuration;
     }
 
     public int getTrickBonusPointValue() {
@@ -47,5 +49,13 @@ public class Instruction {
 
     public void setQuestionLimit(int questionLimit) {
         this.questionLimit = questionLimit;
+    }
+
+    public int getTimerDuration() {
+        return timerDuration;
+    }
+
+    public void setTimerDuration(int timerDuration) {
+        this.timerDuration = timerDuration;
     }
 }
