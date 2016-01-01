@@ -13,7 +13,7 @@ public class EndPhase extends BasicPhase {
 	}
 
 	@Override
-	public void setup(BasicGameState basicGameState) throws InvalidInputException {
+	public void setup(BasicGameState basicGameState) {
 		return;
 	}
 
