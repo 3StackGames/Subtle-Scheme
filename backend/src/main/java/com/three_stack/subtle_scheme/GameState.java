@@ -1,6 +1,8 @@
 package com.three_stack.subtle_scheme;
 
 import com.three_stack.digital_compass.backend.BasicGameState;
+import com.three_stack.digital_compass.backend.BasicPhase;
+import com.three_stack.digital_compass.backend.InvalidInputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +19,11 @@ public class GameState extends BasicGameState {
 
     private boolean includeUsedQuestions = false;
 
-    private boolean outOfQuestions = false;
+    private boolean firstGame = true;
 
     private transient List<Integer> possibleQuestions;
+
+    private boolean outOfQuestions = false;
 
     private List<Lie> lies;
 
@@ -45,6 +49,7 @@ public class GameState extends BasicGameState {
         super.resetGame();
         prepareForNewQuestion();
         questionCount = 0;
+        firstGame = false;
     }
 
     public void incrementVoteCount() {
@@ -117,6 +122,14 @@ public class GameState extends BasicGameState {
 
     public void setPossibleQuestions(List<Integer> possibleQuestions) {
         this.possibleQuestions = possibleQuestions;
+    }
+
+    public boolean isFirstGame() {
+        return firstGame;
+    }
+
+    public void setFirstGame(boolean firstGame) {
+        this.firstGame = firstGame;
     }
 
     public boolean isOutOfQuestions() {

@@ -6,7 +6,6 @@ var authenticate = require('./authenticate')
 /* API Welcome */
 router.get('/', function(req, res, next) {
   res.json({
-      success: true,
       message: 'Welcome to the Subtle-Scheme API v1'
   });
 });

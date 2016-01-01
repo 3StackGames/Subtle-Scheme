@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class LiePhase extends BasicPhase {
-    private transient QuestionService questionService;
+    private QuestionService questionService;
 
     @Override
     public Class getAction() {
@@ -29,8 +29,8 @@ public class LiePhase extends BasicPhase {
 
         //check if we're out of questions
         if(possibleQuestionIds.isEmpty()) {
-            gameState.setOutOfQuestions(true);
-            return;
+			gameState.setOutOfQuestions(true);
+			return;
         }
         Random random = new Random();
         int questionIndex = random.nextInt(possibleQuestionIds.size());
@@ -45,24 +45,7 @@ public class LiePhase extends BasicPhase {
 		GameState gameState = (GameState) state;
 		LieAction lieAction = (LieAction) action;
 
-        String lieText = lieAction.getLie().trim().toLowerCase();
-
-        for (Lie lie : gameState.getLies()) {
-            if(lie.getLie().equals(lieText)) {
-                //found lie already in the game
-                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie already submitted");
-            } else if (gameState.getCurrentQuestion().getAnswers().contains(lie.getLie())) {
-                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie is an answer");
-            }
-
-        }
-
-		Lie lie = new Lie(lieText, lieAction.getPlayer());
-		gameState.getLies().add(lie);
-		if (gameState.getLies().size() == gameState.getPlayers().size()) {
-			gameState.transitionPhase(new VotePhase());
-		}
-		return gameState;
+        return addLiesToGameState(gameState, lieAction.getLie(), lieAction.getPlayer());
 	}
 	
 	@Override
@@ -93,11 +76,38 @@ public class LiePhase extends BasicPhase {
     				System.out.println("This shouldn't have happened");
     				e.printStackTrace();
     			}
-    		}
+
+                try {
+                    state = addLiesToGameState(gameState, autoLies.get(i), player.getDisplayName());
+                } catch (InvalidInputException e) {
+                    System.out.println("We shouldn't be here.");
+                    e.printStackTrace();
+                }
+            }
     	} else {
     		super.onDisplayActionComplete(state);
     	}
     	return state;
     }
 
+
+    private GameState addLiesToGameState(GameState gameState, String newLie, String player) throws InvalidInputException {
+        String lieText = newLie.trim().toLowerCase();
+
+        for (Lie lie : gameState.getLies()) {
+            if(lie.getLie().equals(lieText)) {
+                //found lie already in the game
+                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie already submitted");
+            } else if (gameState.getCurrentQuestion().getAnswers().contains(lie.getLie())) {
+                throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie is an answer");
+            }
+        }
+
+        Lie lie = new Lie(lieText, player);
+        gameState.getLies().add(lie);
+        if (gameState.getLies().size() == gameState.getPlayers().size()) {
+            gameState.transitionPhase(new VotePhase());
+        }
+        return gameState;
+    }
 }

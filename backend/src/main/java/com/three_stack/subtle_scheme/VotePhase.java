@@ -5,16 +5,11 @@ import java.util.List;
 import java.util.Random;
 import java.util.Set;
 
-import com.three_stack.digital_compass.backend.BasicAction;
-import com.three_stack.digital_compass.backend.BasicGameState;
-import com.three_stack.digital_compass.backend.BasicPhase;
-import com.three_stack.digital_compass.backend.BasicPlayer;
+import com.three_stack.digital_compass.backend.*;
+import org.omg.CORBA.DynAnyPackage.Invalid;
 
-/**
- * Created by Hyunbin on 9/16/15.
- */
 public class VotePhase extends BasicPhase {
-	private transient QuestionService questionService;
+	private QuestionService questionService;
 
 	@Override
 	public Class getAction() {
@@ -23,11 +18,10 @@ public class VotePhase extends BasicPhase {
 
 	@Override
 	public void setup(BasicGameState state) {
-		super.setup(state);
 		questionService = new QuestionService();
 	}
 
-	public BasicGameState processAction(BasicAction action, BasicGameState state) {
+	public BasicGameState processAction(BasicAction action, BasicGameState state) throws InvalidInputException {
 		GameState gameState = (GameState) state;
 		VoteAction voteAction = (VoteAction) action;
 
@@ -116,9 +110,14 @@ public class VotePhase extends BasicPhase {
     			else {
     				voteAction.setAnswer(lies.get(i-1).getLie());  				
     			}
-    			
-				state = processAction(voteAction, state);
-    		}
+
+				try {
+					state = processAction(voteAction, state);
+				} catch (InvalidInputException e) {
+					System.out.println("God help us. Why are we here?");
+					e.printStackTrace();
+				}
+			}
     	} else {
     		super.onDisplayActionComplete(state);
     	}

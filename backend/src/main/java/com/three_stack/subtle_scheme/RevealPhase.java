@@ -3,6 +3,7 @@ package com.three_stack.subtle_scheme;
 import com.three_stack.digital_compass.backend.BasicAction;
 import com.three_stack.digital_compass.backend.BasicGameState;
 import com.three_stack.digital_compass.backend.BasicPhase;
+import com.three_stack.digital_compass.backend.InvalidInputException;
 
 public class RevealPhase extends BasicPhase {
 	@Override
@@ -10,6 +11,10 @@ public class RevealPhase extends BasicPhase {
 		return RevealAction.class;
 	}
 
+    @Override
+    public void setup(BasicGameState basicGameState) {
+        return;
+    }
 
     @Override
     public BasicGameState onDisplayActionComplete(BasicGameState state) {

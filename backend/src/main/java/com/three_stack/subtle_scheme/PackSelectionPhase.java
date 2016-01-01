@@ -3,6 +3,7 @@ package com.three_stack.subtle_scheme;
 import com.three_stack.digital_compass.backend.BasicAction;
 import com.three_stack.digital_compass.backend.BasicGameState;
 import com.three_stack.digital_compass.backend.BasicPhase;
+import com.three_stack.digital_compass.backend.InvalidInputException;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,7 +23,7 @@ public class PackSelectionPhase extends BasicPhase {
     }
 
     @Override
-    public BasicGameState processAction(BasicAction action, BasicGameState state) {
+    public BasicGameState processAction(BasicAction action, BasicGameState state) throws InvalidInputException {
         GameState gameState = (GameState) state;
         PackSelectionAction packSelectionAction = (PackSelectionAction) action;
 
@@ -39,8 +40,11 @@ public class PackSelectionPhase extends BasicPhase {
             QuestionService questionService = new QuestionService();
             List<Integer> possibleQuestions = questionService.getPossibleQuestionIds(gameState);
             gameState.setPossibleQuestions(possibleQuestions);
-
             gameState.transitionPhase(new LiePhase());
+            //check if we're out of questions
+            if(gameState.getPossibleQuestions().isEmpty()) {
+                throw new InvalidInputException(InvalidInputException.Code.ILLEGAL_STATE, "Out of Questions");
+            }
         }
         return gameState;
     }
