@@ -41,10 +41,6 @@ public class PackSelectionPhase extends BasicPhase {
             List<Integer> possibleQuestions = questionService.getPossibleQuestionIds(gameState);
             gameState.setPossibleQuestions(possibleQuestions);
             gameState.transitionPhase(new LiePhase());
-            //check if we're out of questions
-            if(gameState.getPossibleQuestions().isEmpty()) {
-                throw new InvalidInputException(InvalidInputException.Code.ILLEGAL_STATE, "Out of Questions");
-            }
         }
         return gameState;
     }
