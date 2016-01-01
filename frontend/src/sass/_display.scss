@@ -25,7 +25,7 @@
     .small-header, .showGameCode {
         font-weight: 600;
         font-size: 2em;
-        color: #BDBDBD;
+        color: #f5f5f5;
         text-align: right;
         margin: -60px 0 40px;
     }
@@ -45,10 +45,10 @@
         width: 100%;
         margin: 40px auto 0;
         padding: 9px 0;
-        background: #2196F3;
+        background: $btn-background;
         font-weight: 600;
         font-size: 1.2em;
-        color: white;
+        color: $btn-color;
     }
 
     .joinNotice {
@@ -362,7 +362,7 @@
         width: 100%;
         padding: 60px 0 0;
         margin: 0 auto 0;
-        
+
         .playerBoardItemContainer {
             overflow: hidden;
         }

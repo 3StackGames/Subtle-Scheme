@@ -9,7 +9,7 @@
 
     .btn {
         &:hover {
-            background: #42A5F5;
+            background: $btn-background-hover;
         }
 
         display: block;
@@ -18,8 +18,8 @@
         margin: 10px auto;
         padding: 12px 15px;
         border-radius: 0;
-        background: #2196F3;
-        color: white;
+        background: $btn-background;
+        color: $btn-color;
         font-size: 1.3em;
     }
 }
