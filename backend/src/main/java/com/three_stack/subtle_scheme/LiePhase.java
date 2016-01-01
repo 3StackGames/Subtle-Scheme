@@ -13,7 +13,7 @@ import java.util.Random;
 import java.util.Set;
 
 public class LiePhase extends BasicPhase {
-    private transient QuestionService questionService;
+    private QuestionService questionService;
 
     @Override
     public Class getAction() {
@@ -29,8 +29,8 @@ public class LiePhase extends BasicPhase {
 
         //check if we're out of questions
         if(possibleQuestionIds.isEmpty()) {
-            gameState.setOutOfQuestions(true);
-            return;
+			gameState.setOutOfQuestions(true);
+			return;
         }
         Random random = new Random();
         int questionIndex = random.nextInt(possibleQuestionIds.size());
@@ -54,7 +54,6 @@ public class LiePhase extends BasicPhase {
             } else if (gameState.getCurrentQuestion().getAnswers().contains(lie.getLie())) {
                 throw new InvalidInputException(InvalidInputException.Code.INPUT_REJECTED, "Lie is an answer");
             }
-
         }
 
 		Lie lie = new Lie(lieText, lieAction.getPlayer());
