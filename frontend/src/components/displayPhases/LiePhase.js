@@ -9,7 +9,7 @@ export default class LiePhase extends Component {
 
     this.state = {}
     this.instructionTimeout = () => {
-      setTimeout(() => {
+      return setTimeout(() => {
         props.engine.displayActionComplete({
           gameCode: props.gameState.gameCode
         })
@@ -20,11 +20,6 @@ export default class LiePhase extends Component {
   componentDidMount() {
     const { gameState, engine } = this.props
     const { gameCode } = gameState
-
-    if (gameState.questionCount > 1) {
-      engine.displayActionComplete({ gameCode })
-      return
-    }
 
     localStorage.setItem('display.gameCode', gameCode);
     localStorage.setItem('display.timestamp', +new Date);
@@ -55,7 +50,6 @@ export default class LiePhase extends Component {
 
     if (questionCount === 1 && !displayComplete) {
       this.instructionTimeout()
-      console.log(this)
       return (
         <div>
           <Instructions
