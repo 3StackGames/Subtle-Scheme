@@ -11,7 +11,6 @@ router.get('/', function(req, res, next) {
 /* API Welcome */
 router.get('/api', function(req, res, next) {
   res.json({
-      success: true,
       message: 'Make sure to select an api version. For example: /api/v1'
   });
 });

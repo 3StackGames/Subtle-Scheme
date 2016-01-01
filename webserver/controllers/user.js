@@ -11,8 +11,7 @@ mod.isUsernameTaken = function (req, res, next) {
     
     userService.isUsernameTaken(username)
     .then(function(isTaken) {
-        if(isTaken) res.json({
-            success: false,
+        if(isTaken) res.status(400).json({
             message: 'Username ' + username + ' taken'
         })
         else next()
@@ -35,8 +34,7 @@ mod.create = function (req, res) {
                 
         var message = 'User ' + username + ' created'
         
-        res.json({
-            success: true,
+        res.status(201).json({
             message: message
         })
     })
