@@ -25,9 +25,6 @@ export default class LiePhase extends Component {
     }
 
     this.props.engine.socket.on('Error', ({ gameCode, player, code, message }) => {
-      console.log('===============================')
-      console.log('error handled')
-      console.log('===============================')
       this.setState({
         alert: "You picked either someone else's lie or the truth! Please enter something else."
       })

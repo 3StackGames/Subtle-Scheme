@@ -13,11 +13,15 @@
 
 .header-logo {
   text-decoration: none;
+  color: $lightblue;
 
   &:hover {
     text-decoration: none;
   }
-  &:visited {
-    color: $lightblue;
-  }
+}
+
+a:visited,
+a:focus, {
+  color: $lightblue;
+  text-decoration: none;
 }

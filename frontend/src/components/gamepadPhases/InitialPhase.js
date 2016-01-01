@@ -3,22 +3,44 @@ import ReactDOM, { render } from 'react-dom'
 import cx from 'classname'
 import autobind from 'autobind-decorator'
 import objectPath from 'object-path'
+import { fetchLocalToken } from '../../utils'
 
 export default class InitialPhase extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      username: '',
+      nickname: '',
       gameCode: '',
+      username: '',
+      password: '',
       errors: {
-        username: true,
+        nickname: true,
         gameCode: true
       }
     }
   }
 
-  // NOTE: Handle found room
+  componentDidMount() {
+    const { engine } = this.props
+    engine.socket.on(engine.events.GAMEPAD_JOIN_REJECTED, (data) => {
+      console.log(this.state)
+      console.log(data)
+      this.setState({
+        errors: {
+          ...this.state.errors,
+          nickname: data.reason
+        }
+      })
+    })
+
+    const token = fetchLocalToken()
+    if (token) {
+      this.props.authActs.localLogin(token)
+    }
+  }
+
   render() {
+    const { auth } = this.props
     const user = JSON.parse(localStorage.getItem('gamepad.user'))
     const timestamp = parseInt(localStorage.getItem('gamepad.timestamp'), 10)
     const difference = (+new Date - timestamp) / (1000 * 60 * 60)
@@ -48,14 +70,13 @@ export default class InitialPhase extends Component {
         <div className="small-header">Join Room</div>
         <form>
           {foundRoom}
-          <div id="warning" className="notice-red" />
           <div className="form-group">
-            <label htmlFor="username">Username</label>
+            <label htmlFor="nickname">Nickname <span className="notice-red">{this.state.errors.nickname}</span></label>
             <input
               type="text"
-              onChange={this.handleUsernameInput}
+              onChange={this.handleNicknameInput}
               className="form-control"
-              id="username"
+              id="nickname"
               placeholder="ex: John" />
           </div>
           <div className="form-group">
@@ -79,33 +100,57 @@ export default class InitialPhase extends Component {
           </div>
         </form>
         <div className="login-wrap">
-          <h3>Login</h3>
-          <p className="text-detail">We'll make sure you don't get repeat questions :)</p>
-          <form>
-            <div className="form-group">
-              <label htmlFor="loginUsername">Username</label>
-              <input
-                type="text"
-                className="form-control"
-                id="loginUsername"
-                onChange={this.handleUsernameInput} />
-            </div>
-            <div className="form-group">
-              <label htmlFor="loginPassword">Password</label>
-              <input
-                type="password"
-                className="form-control"
-                id="loginPassword"
-                onChange={this.handlePasswordInput} />
-            </div>
-            <div className="form-group">
-              <label>
-                <input type="checkbox" onChange={this.handleCreateToggle}/> Create new account
-              </label>
-            </div>
-          </form>
-          <button className="btn-login" onClick={this.authenticate}>Submit</button>
+          {
+            auth.username
+              ? this.loggedInView
+              : this.loggedOutView
+          }
         </div>
+      </div>
+    )
+  }
+
+  get loggedInView() {
+    const { auth } = this.props
+    return (
+      <div>
+        <h3 style={{ textAlign: 'center' }}>Hi there, {auth.username}</h3>
+        <button style={{ width: 100 }} className="btn-login" onClick={this.handleLogout}>Log Out</button>
+      </div>
+    )
+  }
+
+  get loggedOutView() {
+    const { auth } = this.props
+    return (
+      <div>
+        <h3>Login</h3>
+        <p className="text-detail">We'll make sure you don't get repeat questions :)</p>
+        <form>
+          <h6 id="warning" className="notice-red">{auth.error}</h6>
+          <div className="form-group">
+            <label htmlFor="loginUsername">Username</label>
+            <input
+              type="text"
+              className="form-control"
+              id="loginUsername"
+              onChange={this.handleUsernameInput} />
+          </div>
+          <div className="form-group">
+            <label htmlFor="loginPassword">Password</label>
+            <input
+              type="password"
+              className="form-control"
+              id="loginPassword"
+              onChange={this.handlePasswordInput} />
+          </div>
+          <div className="form-group">
+            <label>
+              <input type="checkbox" onChange={this.handleCreateToggle}/> Create new account
+            </label>
+          </div>
+        </form>
+        <button className="btn-login" onClick={this.handleLogin}>Submit</button>
       </div>
     )
   }
@@ -135,13 +180,18 @@ export default class InitialPhase extends Component {
   }
 
   @autobind
-  authenticate(e) {
+  handleLogin(e) {
     const { isCreatingAccount, username, password } = this.state
     if (isCreatingAccount) {
       this.props.authActs.createAccount(username, password)
     } else {
       this.props.authActs.login(username, password)
     }
+  }
+
+  @autobind
+  handleLogout(e) {
+    this.props.authActs.logout()
   }
 
   get everyoneIsInButton() {
@@ -157,23 +207,23 @@ export default class InitialPhase extends Component {
   }
 
   @autobind
-  handleUsernameInput(e) {
+  handleNicknameInput(e) {
     const { isDirty, errors } = this.state
     const input = e.target.value
 
     let error = null
     if (input.length === 0) {
-      error = 'Enter a username!'
+      error = 'Enter a nickname!'
     }
     else if (input.length > 16) {
-      error = 'Choose a shorter username!'
+      error = 'Choose a shorter nickname!'
     }
 
     this.setState({
-      username: input,
+      nickname: input,
       errors: {
         ...errors,
-        username: error
+        nickname: error
       }
     })
   }
@@ -203,18 +253,18 @@ export default class InitialPhase extends Component {
   }
 
   get isInputValid() {
-    return !this.state.errors.username && !this.state.errors.gameCode
+    return !this.state.errors.nickname && !this.state.errors.gameCode
   }
 
   @autobind
   handlePlayerJoin(e) {
-    const { username, gameCode } = this.state
+    const { nickname, gameCode } = this.state
     const { playerActs, engine, auth } = this.props
     e.preventDefault()
     e.target.disabled = true
 
     playerActs.setPlayer({
-      displayName: this.state.username,
+      displayName: nickname,
       joined: false
     })
 
@@ -224,7 +274,7 @@ export default class InitialPhase extends Component {
     engine.gamepadJoin({
       gameCode: gameCode.toUpperCase(),
       accountName: auth.username,
-      displayName: username
+      displayName: nickname
     })
   }
 

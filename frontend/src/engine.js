@@ -1,5 +1,7 @@
 import config from '../.env'
-import dc from 'digital-compass-client'
+// Use local copy for development speed
+// import dc from 'digital-compass-client'
+import dc from '../digital-compass-client/lib'
 
 let socketEngine = dc.SocketEngine(config)
 

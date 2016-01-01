@@ -7,7 +7,7 @@ const CREATE_SUCCESS = 'subtle-scheme/auth/CREATE_SUCCESS'
 // const LOGIN_REQUEST = 'subtle-scheme/auth/LOGIN_REQUEST'
 const LOGIN_SUCCESS = 'subtle-scheme/auth/LOGIN_SUCCESS'
 // const LOGIN_FAIL = 'subtle-scheme/auth/LOGIN_FAIL'
-const LOGIN_SYNC = 'subtle-scheme/auth/LOGIN_SYNC'
+const LOCAL_LOGIN = 'subtle-scheme/auth/LOCAL_LOGIN'
 const LOGOUT = 'subtle-scheme/auth/LOGOUT'
 const AUTH_REQUEST = 'subtle-scheme/auth/AUTH_REQUEST'
 const AUTH_FAIL = 'subtle-scheme/auth/AUTH_FAIL'
@@ -59,7 +59,7 @@ export default function reducer(state = initialState, action = {}) {
     //     error: payload,
     //     isLoading: false
     //   }
-    case LOGIN_SYNC:
+    case LOCAL_LOGIN:
       return {
         ...state,
         token: payload.token,
@@ -113,7 +113,7 @@ function authRequest() {
 function authFail(err) {
   return {
     type: AUTH_FAIL,
-    payload: err
+    payload: err.message
   }
 }
 
@@ -135,21 +135,26 @@ export const createAccount = (username, password) => dispatch => {
       password
     })
     .then(res => {
-      return request
-        .post('http://localhost:3000/api/v1/authenticate/login')
-        .type('application/json')
-        .send({
-          username,
-          password
-        })
+      // Hack for API errors
+      if (!res.body.success) {
+        dispatch(authFail(res.body))
+      } else {
+        request
+          .post('http://localhost:3000/api/v1/authenticate/login')
+          .type('application/json')
+          .send({
+            username,
+            password
+          })
+          .then(res => {
+            const { token } = res.body
+            processToken(token, dispatch)
+          })
+      }
     })
-    .then(res => {
-      const { token } = res.body
-      processToken(token, dispatch)
-    })
-    .catch(err => {
-      dispatch(authFail(err.message))
-    })
+    // .catch(err => {
+    //   dispatch(authFail(err))
+    // })
 }
 
 export const login = (username, password) => dispatch => {
@@ -163,19 +168,24 @@ export const login = (username, password) => dispatch => {
       password
     })
     .then(res => {
-      const { token } = res.body
-      processToken(token, dispatch)
+      // Hack for API errors
+      if (!res.body.success) {
+        dispatch(authFail(res.body))
+      } else {
+        const { token } = res.body
+        processToken(token, dispatch)
+      }
     })
-    .catch(err => {
-      dispatch(authFail(err.message))
-    })
+    // .catch(err => {
+    //   dispatch(authFail(err))
+    // })
 }
 
-export const loginSync = (token) => {
+export const localLogin = (token) => {
   const decoded = jwt.decode(token)
   const { username } = decoded
   return {
-    type: LOGIN_SYNC,
+    type: LOCAL_LOGIN,
     payload: {
       token,
       username
