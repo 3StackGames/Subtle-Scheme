@@ -40,7 +40,7 @@ export default class Display extends Component {
             </div>
           </div>
         </div>
-        <audio src="./assets/sounds/Background-2_edit.mp3" autoPlay></audio>
+        <audio src="./assets/sounds/Background-2_edit.mp3" autoPlay loop volume="0"></audio>
       </div>
     )
   }
