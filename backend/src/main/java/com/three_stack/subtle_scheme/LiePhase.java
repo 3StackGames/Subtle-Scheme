@@ -50,43 +50,8 @@ public class LiePhase extends BasicPhase {
 	
 	@Override
 	public BasicGameState onDisplayActionComplete(BasicGameState state) {
-    	if(state.isDisplayComplete()) {
-    		GameState gameState = (GameState) state;   		
-    		List<String> autoLies = questionService.getQuestion(gameState.getCurrentQuestion().getId()).getAutoLies();    		
-    		List<Lie> lies = gameState.getLies();
-    		
-    		Set<BasicPlayer> players = new HashSet<BasicPlayer>(gameState.getPlayers());
-    		for (Lie lie : lies) {
-    			players.remove(state.getPlayerByName(lie.getLiar()));
-    		}
-    		
-    		for (BasicPlayer player : players) {
-    			LieAction lieAction = new LieAction();
-    			lieAction.setPlayer(player.getDisplayName());
-
-    			Random r = new Random();
-    			int i = r.nextInt(autoLies.size());
-    			lieAction.setLie(autoLies.get(i));
-    			autoLies.remove(i);
-    			
-    			try {
-    				state = processAction(lieAction, state);
-    			}
-    			catch (InvalidInputException e) {
-    				System.out.println("This shouldn't have happened");
-    				e.printStackTrace();
-    			}
-
-                try {
-                    state = addLiesToGameState(gameState, autoLies.get(i), player.getDisplayName());
-                } catch (InvalidInputException e) {
-                    System.out.println("We shouldn't be here.");
-                    e.printStackTrace();
-                }
-            }
-    	} else {
+    	
     		super.onDisplayActionComplete(state);
-    	}
     	return state;
     }
 

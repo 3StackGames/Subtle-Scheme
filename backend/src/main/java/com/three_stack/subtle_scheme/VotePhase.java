@@ -88,39 +88,8 @@ public class VotePhase extends BasicPhase {
 	
 	@Override
 	public BasicGameState onDisplayActionComplete(BasicGameState state) {
-    	if(state.isDisplayComplete()) {
-    		GameState gameState = (GameState) state;
-    		Question cq = gameState.getCurrentQuestion();
-    		List<Lie> lies = gameState.getLies();
-    		
-    		Set<BasicPlayer> players = new HashSet<BasicPlayer>(gameState.getPlayers());
-    		players.remove(cq.getBelievers());
-    		for (Lie lie : lies) {
-    			players.remove(lie.getBelievers());
-    		}
-    		
-    		for (BasicPlayer player : players) {
-    			Random r = new Random();
-    			int i = r.nextInt(lies.size()+1);
-    			VoteAction voteAction = new VoteAction();
-    			voteAction.setPlayer(player.getDisplayName());
-    			if (i == 0) {
-    				voteAction.setAnswer(cq.getAnswer());
-    			}
-    			else {
-    				voteAction.setAnswer(lies.get(i-1).getLie());  				
-    			}
-
-				try {
-					state = processAction(voteAction, state);
-				} catch (InvalidInputException e) {
-					System.out.println("God help us. Why are we here?");
-					e.printStackTrace();
-				}
-			}
-    	} else {
+    	
     		super.onDisplayActionComplete(state);
-    	}
     	return state;
     }
 
