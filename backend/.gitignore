@@ -1,3 +1,6 @@
+/src/main/resources/development.properties
+/src/main/resources/production.properties
+
 # Created by https://www.gitignore.io/api/java,maven,osx,windows,intellij,eclipse
 
 ### Java ###
