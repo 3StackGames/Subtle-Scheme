@@ -100,10 +100,20 @@ public class VotePhase extends BasicPhase {
     		}
     		
     		for (BasicPlayer player : players) {
-    			Random r = new Random();
-    			int i = r.nextInt(lies.size()+1);
     			VoteAction voteAction = new VoteAction();
     			voteAction.setPlayer(player.getDisplayName());
+    			
+    			Lie playerLie = null;
+    			for (Lie lie : lies) {
+    				if (lie.getLiar().equals(player.getDisplayName())) {
+    					playerLie = lies.remove(lies.indexOf(lie));
+    					break;
+    				}
+    			}
+
+    			Random r = new Random();
+    			int i = r.nextInt(lies.size()+1);
+    			
     			if (i == 0) {
     				voteAction.setAnswer(cq.getAnswer());
     			}
@@ -117,6 +127,9 @@ public class VotePhase extends BasicPhase {
 					System.out.println("God help us. Why are we here?");
 					e.printStackTrace();
 				}
+				
+				if(playerLie != null)
+					lies.add(playerLie);
 			}
     	} else {
     		super.onDisplayActionComplete(state);
