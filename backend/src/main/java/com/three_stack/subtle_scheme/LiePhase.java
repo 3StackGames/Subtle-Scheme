@@ -63,7 +63,6 @@ public class LiePhase extends BasicPhase {
     		for (BasicPlayer player : players) {
     			Random r = new Random();
     			int i = r.nextInt(autoLies.size());
-    			autoLies.remove(i);
 
                 try {
                     state = addLiesToGameState(gameState, autoLies.get(i), player.getDisplayName());
@@ -71,6 +70,7 @@ public class LiePhase extends BasicPhase {
                     System.out.println("We shouldn't be here.");
                     e.printStackTrace();
                 }
+    			autoLies.remove(i);
             }
     	} else {
     		super.onDisplayActionComplete(state);
